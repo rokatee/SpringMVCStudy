@@ -14,7 +14,7 @@
 → Spring MVC 에서 클라이언트의 요청이 진입하는 지점 : front controller
 
 
-* 컨트롤러 아래에 Modle과 View 있는 트리 구조인데,
+* 컨트롤러 아래에 Model과 View 있는 트리 구조인데,
   그런 트리가 여러 개 있는데
   Spring Framework에서 MVC 모델 적용하면,
   그 MVC 트리 위에 네모 하나 더 있는 모양
@@ -41,12 +41,16 @@ ex) 		  ┌ C1(자재부매니저) MV(직원들)
 
 
 2. Spring MVC 의 주요 구성요소
-   - DispatcherServlet → Controller 역할
-   - HandlerMapping
+   - DispatcherServlet : 클라이언트의 요청을 전달 받는다
+                         Controller(사용자 정의 컨트롤러)에게 클라이언트의 요청을 전달하고,
+			 Controller 가 반환한 결과값을 View 에 전달하여
+                         적절한 응답을 생성할 수 있도록 처리한다.
+   - HandlerMapping : 클라이언트의 요청 URL 을 어떤 Controller 가 처리할지 결정한다
    - Controller : 사용자 정의 Controller. 액션 처리. 우리가 작성.
-   - ModelAndView (내부적으로 있는거 사용)
-   - ViewResolver (Spring에서 제공해주는 내용 돌아감)
-   - view : 결과 출력. 우리가 작성. → 우리가 작성하지만, 
+   - ModelAndView : (내부적으로 있는거 사용) View 객체 정보와 결과값이 들어있는 객체
+   - ViewResolver : (Spring에서 제공해주는 내용 돌아감)
+                    요청에 대한 처리 결과를 보여줄 View 를 결정한다
+   - View : 결과 출력. 우리가 작성. → 우리가 작성하지만, 
 	    우리가 작성한게 클라이언트와 만나지 않음. 
 	    우리가 그려낸 view로 spring이 그려낸 것이 
             클라이언트와 만나게 될 것이다.
@@ -69,16 +73,16 @@ DispatcherServlet → 부품,자재가 뭐지? 담당하는 사람 있어?
 		  
 	
 3. Spring MVC 실행 흐름
-   - 사용자 요청 → DispatcherServlet
+   - 사용자 요청 → DispatcherServlet 접수
    - DispatcherServlet → HandlerMapping 에 주소 분석 요청
    - DispatcherServlet → 특정 Controller 객체 호출 및 결과 수신
 			  결과는 ModelAndView 객체
-
-   ※ ModelAndView 객체
-      : View 객체 정보와 결과값이 들어있는 객체
    - DispatcherServlet → ViewResolver 에 View 객체 분석 요청
    - DispatcherServlet → 특정 View 객체에 Model 객체를 넘겨주고
                           결과 출력
+
+   ※ ModelAndView 객체
+      : View 객체 정보와 결과값이 들어있는 객체
 
 
 4. Spring MVC 에서 우리가 해야 할 일
@@ -123,16 +127,20 @@ DispatcherServlet → 부품,자재가 뭐지? 담당하는 사람 있어?
    : JavaEE
 
 ○ 다이나믹 웹 프로젝트 생성
-   : mvc01 > web.xml generate 체크 후 finish
+   : STS 생성 시
+     mvcApp01 > web.xml generate 체크 후 finish
 
 ○ 톰캣 서버 등록 및 포트(port) 설정
-   : port 8090 / URIEncoding="UTF-8"   (→ server.xml 에서 변경)
+   : Apache-Tomcat 8.5 선택 및 디렉터리 경로 지정
+     포트번호 변경 및 URIEncoding 지정
+     → port 8090 / URIEncoding="UTF-8"   (→ server.xml 에서 변경)
 
 ○ 기타 환경 설정
    : 폰트, 줄번호, 편집포맷, 인코딩방식, 템플릿 등...
+     → 기존 환경 설정 파일(epf) import 하는 것으로 대체
 
 ○ Spring MVC 환경 설정을 위한 라이브러리 등록
-   : WebContent > WEB-INF > lib 경로에 등록
+   : WebContent > WEB-INF > lib 경로에 등록 (폴더에 복붙)
      - 경로1 → C:\s-f-3.0.2-with-docs\dist
        ·파일1 : org.springframework.aop-3.0.2.RELEASE.jar
        ·파일2 : org.springframework.asm-3.0.2.RELEASE.jar
@@ -159,10 +167,12 @@ DispatcherServlet → 부품,자재가 뭐지? 담당하는 사람 있어?
        ·파일14: standard.jar
 
 ○ 물리적 파일 구성
-   - HelloController.java
-   - Hello.jsp
-   - dispatcher-servlet.xml  (←이름 이거랑 다르면 안됨. applicationContext, config.xml 이라고 작성했던것과 형식 좀 다름)
-   - web.xml
+   - HelloController.java	→ 사용자 정의 컨트롤러 클래스
+   - Hello.jsp			→ View 페이지
+   - dispatcher-servlet.xml	→ 사용자 정의 컨트롤러 등록 및 URL 매핑 주소 등록
+    ( → 이름 이거랑 다르면 안됨. applicationContext, config.xml 이라고 작성했던것과 형식 좀 다름)
+   				
+   - web.xml			→ Spring MVC Framework Front Controller
    - hello.action → 그냥 빈 file (실행 편하게 하려고 생성)	
 
    ※ 『dispatcher-servlet.xml』 파일의 기본 설정 내용(템플릿)을 복사하기 위해
@@ -175,43 +185,42 @@ DispatcherServlet → 부품,자재가 뭐지? 담당하는 사람 있어?
 
 
 ○ 사용자 최초 요청 주소
-http://localhost:8090/mvc01/hello.action
+http://localhost:8090/mvcApp01/hello.action
 
 
-※ 우리가 작성한 mvc01 프로젝트의 실행 및 처리 과정 정리
+※ 우리가 작성한 mvcApp01 프로젝트의 실행 및 처리 과정 정리
 
    ① 외부 요청
-      http://localhost:8090/mvc01/hello.action
+      http://localhost:8090/mvcApp01/hello.action
 
       → web.xml 관여
-         (→ Front Controller 등록 → DispatcherServlet 등록)
+         (→ ~.action 요청(Front Controller 등록) → DispatcherServlet 등록)
 
    ② DispatcherServlet 요청 접수
-      
-      → web.xml → DispatcherServlet 등록
-         web.xml → URL 패턴 등록
+      및 사용자 요청 분석
+      → DispatcherServlet 등록 (dispatcher-servlet.xml)
+         web.xml → URL 패턴 등록(/hello.action → xxx.java)
 
       → 사용자 요청 분석 → 특정 컨트롤러 지정
 
-   ③ 해당 컨트롤러의 특정 메소드 호출(액션 처리, ModelAndView 객체 반환)
-      
-      → 사용자의 요청에 맞는 액션 처리
-
-      → 결과 데이터가 들어있는 모델 객체 준비
-
-      → 뷰 정보(JSP 페이지 정보) 반환
+   ③ DispatcherServlet 이 Controller(사용자 정의 Controller) 지정
+      → 해당 컨트롤러의 특정 메소드 호출(액션 처리, ModelAndView 객체 반환)
+         사용자의 요청에 맞는 액션 처리
+         결과 데이터가 들어있는 모델 객체 준비
+         뷰 정보(JSP 페이지 정보) 반환
 
          ※ JSP 페이지 정보
-            - 여기서는 객체가 아닌 경로 포함된 View 페이지의 이름
+            - 여기서는 객체가 아닌 경로 포함된 View 페이지의 이름 반환)
 
-   ④ 뷰 페이지에서 최종 웹 페이지를 작성
+   ④ 뷰 페이지에서 최종 웹 페이지를 작성(동적으로 그려내기)
 
       → JSP 페이지 내에서 EL 이나 JSTL 등의 표기 사용 가능
 	 │
 	 └→ ④번은 그냥 내용 전달만 하고 끝나는 것이 아니라
 	      JSP 페이지 내에서 HTML document 그리는 것이다.
 
-   ⑤ 응답 완료~!!!
+   ⑤ 최종적으로 그려진 html 문서가 클라이언트의 브라우저로 전달되며
+      응답 완료~!!!
 
 
 - 파일 흐름
@@ -269,10 +278,10 @@ Hello.jsp
    : JavaEE
 
 ○ 다이나믹 웹 프로젝트 생성
-   : mvc02 
+   : mvcApp02 
 
 ○ 기본 환경 구성 및 라이브러리 생성
-   : mvc00 (우리가 임의로 만들어둔 샘플)로부터
+   : mvcApp00 (우리가 임의로 만들어둔 샘플)로부터
      src, WebContent 디렉터리 복사 & 붙여넣기
 
 ○ 실습 성격
@@ -290,15 +299,15 @@ Hello.jsp
 
 
 ○ 사용자 최초 요청 주소
-http://localhost:8090/mvc02/send.do
+http://localhost:8090/mvcApp02/send.action
 
 
 -파일 작성 순서
 SendController.java : 클라이언트의 요청 들어왔을 때, 'Send.jsp' view 내보내겠다고 함
 Send.jsp
-web.xml : *.do면 dispatcher-servlet.xml 로 안내	
-dispatcher-servlet.xml : 어떤 .do 인지 확인해서 분기처리
- 			 /send.do 작성
+web.xml : *.action면 dispatcher-servlet.xml 로 안내	
+dispatcher-servlet.xml : 어떤 .action 인지 확인해서 분기처리
+ 			 /send.action 작성
 ReceiveController.java
 Receive.jsp
 dispatcher-servlet.xml : /receive.do 작성
@@ -322,10 +331,10 @@ Receive.jsp
    : JavaEE
 
 ○ 다이나믹 웹 프로젝트 생성
-   : mvc03
+   : mvcApp03
 
 ○ 기본 환경 구성 및 라이브러리 생성
-   : mvc00 (우리가 임의로 만들어둔 샘플)로부터
+   : mvcApp00 (우리가 임의로 만들어둔 샘플)로부터
      src, WebContent 디렉터리 복사 & 붙여넣기
 
 ○ 실습 성격
@@ -364,7 +373,7 @@ Receive.jsp
 ★★★★★★★★★★★★★★★★★★★★★★★★★
 
 ○ 물리적 파일 구성 
-   - mvc03_scott.sql		→ 데이터베이스 관련 객체 구성 및 실습 데이터 준비
+   - mvcApp03_scott.sql		→ 데이터베이스 관련 객체 구성 및 실습 데이터 준비
 
    - MemberDTO.java		→ 사용자 정의 자료형 클래스(DTO 활용)
 
@@ -402,13 +411,13 @@ Receive.jsp
 
 
 ○ 사용자 최초 요청 주소 
-http://localhost:8090/mvc03/memberlist.do
+http://localhost:8090/mvcApp03/memberlist.do
 → 사용자가 검색하는 url은 검색하기 편하게 소문자로 구성하는게 일반적
    사실상 클라이언트와 만나는 MemberList.jsp는 대문자 있음~!
 
 
 -파일 작성 순서
-mvc03_scott.sql
+mvcApp03_scott.sql
 MemberDTO.java
 IMemberDAO.java
 MemberDAO.java
@@ -429,10 +438,10 @@ dispatcher-servlet.xml
    : JavaEE
 
 ○ 다이나믹 웹 프로젝트 생성
-   : mvc04
+   : mvcApp04
 
 ○ 기본 환경 구성 및 라이브러리 생성
-   : mvc00 (우리가 임의로 만들어둔 샘플)로부터
+   : mvcApp00 (우리가 임의로 만들어둔 샘플)로부터
      src, WebContent 디렉터리 복사 & 붙여넣기
 
 ○ 실습 성격
@@ -461,7 +470,7 @@ dispatcher-servlet.xml
 
 
 ○ 물리적 파일 구성 
-   - mvc04_scott.sql		→ 데이터베이스 관련 객체 구성 및 실습 데이터 준비
+   - mvcApp04_scott.sql		→ 데이터베이스 관련 객체 구성 및 실습 데이터 준비
 
    - Employee.java		→ DTO 개념. 직원 데이터 자료형 클래스.
    - Department.java		→ DTO 개념. 부서 데이터 자료형 클래스.
@@ -674,9 +683,9 @@ dispatcher-servlet.xml (/regiondelete.action)
 
 
 ○ 사용자 최초 요청 주소 
-http://localhost:8090/mvc04/employeelist.action
-http://localhost:8090/mvc04/emplist.action
-http://localhost:8090/mvc04/loginform.action
+http://localhost:8090/mvcApp04/employeelist.action
+http://localhost:8090/mvcApp04/emplist.action
+http://localhost:8090/mvcApp04/loginform.action
 
 1 admin
 1234567
