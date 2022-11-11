@@ -9,7 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Send.jsp</title>
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
 </head>
 <body>
 
@@ -19,9 +19,9 @@
 </div>
 
 <div>
-	<form action="receive.do" method="post">
-		이름 <input type="text" name="userName" />
-		<button type="submit">submit</button>
+	<form action="receive.action" method="post">
+		이름 <input type="text" name="userName" class="txt"/>
+		<button type="submit" class="btn">submit</button>
 	</form>
 </div>
 
