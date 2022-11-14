@@ -18,7 +18,7 @@ public class HelloController implements Controller
 {
 	// Controller 인터페이스의 handleRequest() 메소드 재정의
 	@Override
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
+	public ModelAndView handleRequest(HttpServletRequest arg0, HttpServletResponse arg1) throws Exception
 	{
 		// 컨트롤러 내부 액션 처리 코드
 		

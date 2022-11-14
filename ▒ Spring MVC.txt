@@ -331,6 +331,7 @@ Receive.jsp
    : JavaEE
 
 ○ 다이나믹 웹 프로젝트 생성
+   STS 사용 시 Spring Project(또는 스프링 레거시 프로젝트)
    : mvcApp03
 
 ○ 기본 환경 구성 및 라이브러리 생성
@@ -411,7 +412,7 @@ Receive.jsp
 
 
 ○ 사용자 최초 요청 주소 
-http://localhost:8090/mvcApp03/memberlist.do
+http://localhost:8090/mvcApp03/memberlist.action
 → 사용자가 검색하는 url은 검색하기 편하게 소문자로 구성하는게 일반적
    사실상 클라이언트와 만나는 MemberList.jsp는 대문자 있음~!
 
