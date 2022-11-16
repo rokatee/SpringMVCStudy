@@ -10,7 +10,8 @@
 <meta charset="UTF-8">
 <title>Hello.jsp</title>
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
-<!-- Channel Plugin Scripts -->
+
+<!-- 채널톡 API -- Channel Plugin Scripts -->
 <script>
   (function() {
     var w = window;

@@ -473,29 +473,29 @@ dispatcher-servlet.xml
 ○ 물리적 파일 구성 
    - mvcApp04_scott.sql		→ 데이터베이스 관련 객체 구성 및 실습 데이터 준비
 
-   - Employee.java		→ DTO 개념. 직원 데이터 자료형 클래스.
-   - Department.java		→ DTO 개념. 부서 데이터 자료형 클래스.
-   - Region.java		→ DTO 개념. 지역 데이터 자료형 클래스.
-   - Position.java		→ DTO 개념. 직위 데이터 자료형 클래스.
+   - #01. Employee.java		→ DTO 개념. 직원 데이터 자료형 클래스.
+   - #02. Department.java	→ DTO 개념. 부서 데이터 자료형 클래스.
+   - #03. Region.java		→ DTO 개념. 지역 데이터 자료형 클래스.
+   - #04. Position.java		→ DTO 개념. 직위 데이터 자료형 클래스.
 
-   - IEmployeeDAO.java		→ 인터페이스
-   - IDepartmentDAO.java	→ 인터페이스 
-   - IRegionDAO.java		→ 인터페이스 
-   - IPositionDAO.java		→ 인터페이스
+   - #05. IEmployeeDAO.java	→ 인터페이스
+   - #06. IDepartmentDAO.java	→ 인터페이스 
+   - #07. IRegionDAO.java	→ 인터페이스 
+   - #08. IPositionDAO.java	→ 인터페이스
 
-   - EmployeeDAO.java		→ 데이터베이스 액션 처리 클래스
+   - #09. EmployeeDAO.java	→ 데이터베이스 액션 처리 클래스
 				   직원 데이터 입출력 및 수정 삭제 액션
 				   Connection 객체에 대한 의존성 주입 준비
 				   (인터페이스 속성 구성 / setter 정의)
-   - DepartmentDAO.java		→ 데이터베이스 액션 처리 클래스
+   - #10. DepartmentDAO.java		→ 데이터베이스 액션 처리 클래스
 				   부서 데이터 입출력 및 수정 삭제 액션
 				   Connection 객체에 대한 의존성 주입 준비
 				   (인터페이스 속성 구성 / setter 정의)
-   - RegionDAO.java		→ 데이터베이스 액션 처리 클래스
+   - #11. RegionDAO.java		→ 데이터베이스 액션 처리 클래스
 				   지역 데이터 입출력 및 수정 삭제 액션
 				   Connection 객체에 대한 의존성 주입 준비
 				   (인터페이스 속성 구성 / setter 정의)
-   - PositionDAO.java 		→ 데이터베이스 액션 처리 클래스
+   - #12. PositionDAO.java 		→ 데이터베이스 액션 처리 클래스
 				   직위 데이터 입출력 및 수정 삭제 액션
 				   Connection 객체에 대한 의존성 주입 준비
 				   (인터페이스 속성 구성 / setter 정의)
