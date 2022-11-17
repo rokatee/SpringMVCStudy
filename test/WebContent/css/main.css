@@ -1,58 +1,71 @@
 @charset "UTF-8";
+/*=========================
+	#16. main.css
+	- 메인 스타일 구성
+==========================*/
 
-body, p, div, span, input, table, th, td, select
-{
+body, p, div, span, input, table, th, td, select, textarea {
 	font-size: 18px;
-	color: #343;
 	font-family: 맑은 고딕;
+	color: #343;
 }
 
-.control
-{
-	border: 1px solid gray;
-	border-radius: 3px;
+a {
+	text-decoration: none;
+	color: gray;
 }
 
-.table
-{
+a:hover {
+	text-decoration: underline;
+	color: red;
+}
+
+.table {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-.table th, .table td
-{
+.table th, .table td {
 	border: 1px solid gray;
 	border-left: 0px;
 	border-right: 0px;
+	
 	padding: 3px;
 	line-height: 150%;
+	text-align: center;
 }
 
-.table th
-{
-	text-align: left;
+.table th {
 	font-weight: bold;
-	background-color: #EEE;
+	background-color: #eee;
 }
 
-.btn
-{
+.table td {
+	font-size: 12pt;
+}
+
+.btn {
+	cursor: pointer;
+	font-family: 맑은 고딕;
 	font-weight: bold;
 }
 
-.btn:hover
-{
-	color: orange;
-	background-color: #778877;
+.btn:hover:enabled {
+	color: #ffffff;
+	background-color: #008000;
 }
 
-input.txt
-{
-   color:#51067d;
-   font-weight:bold;
-}
 
-input.txt:focus
-{
-   background-color: #99ff99;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+

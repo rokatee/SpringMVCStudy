@@ -9,14 +9,12 @@
 <head>
 <meta charset="UTF-8">
 <title>EmployeeMenu.jsp</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <style type="text/css">
-	.btn-group {width: 100%;}
-	.menubtn {width: 20%; font-weight: bold;}
-</style>
 
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+   .btn-group{width: 100%;}
+   .menubtn {width: 20%; font-weight: bold;}
+   
+</style>
 </head>
 <body>
 
@@ -27,12 +25,12 @@
 ---------------------------------------------------->
 
 <div class="btn-group" role="group">
-   <a href="" role="button" class="menubtn btn-success btn-lg">직원 관리</a>
-   <a href="" role="button" class="menubtn btn-success btn-lg">지역 관리</a>
-   <a href="" role="button" class="menubtn btn-success btn-lg">부서 관리</a>
-   <a href="" role="button" class="menubtn btn-success btn-lg">직위 관리</a>
+   <a href="employeelist.action" role="button" class="menubtn btn btn-success btn-lg">직원 관리</a>
+   <a href="regionlist.action" role="button" class="menubtn btn btn-success btn-lg">지역 관리</a>
+   <a href="department.action" role="button" class="menubtn btn btn-success btn-lg">부서 관리</a>
+   <a href="position.action" role="button" class="menubtn btn btn-success btn-lg">직위 관리</a>
    
-   <a href="" class="menu  btn btn-success btn-lg">로그 아웃</a>
+   <a href="logout.action" class="menubtn btn btn-success btn-lg">로그 아웃</a>
    
 </div>
 

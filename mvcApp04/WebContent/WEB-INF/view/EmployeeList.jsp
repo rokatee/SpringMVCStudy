@@ -49,7 +49,8 @@
 	
 		<div>
 			<form action="">
-				<input type="button" value="직원 추가" class="btn"/>
+				<input type="button" value="직원 추가" class="btn btn-primary control"
+				onclick="location.href='employeeinsertform.action'">
 			</form>
 		</div>
 		<br /><br />
@@ -163,11 +164,11 @@
 					<%-- 삼항 연산자 활용 --%>
 					
 					<td>
-						<button type="button" class="btn updateBtn">수정</button>
+						<button type="button" class="btn btn-primary control updateBtn">수정</button>
 					</td>
 					
 					<td>
-						<button type="button" class="btn deleteBtn">삭제</button>
+						<button type="button" class="btn btn-primary control deleteBtn">삭제</button>
 					</td>
 				</tr>
 			</c:forEach>

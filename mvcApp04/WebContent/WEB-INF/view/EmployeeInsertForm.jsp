@@ -1,0 +1,258 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+	String cp = request.getContextPath();
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EmployeeInsertForm.jsp</title>
+
+<link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
+<link rel="stylesheet" type="text/css" href="<%=cp %>/css/jquery-ui.css">
+
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="<%=cp%>/js/jquery-ui.js"></script>
+
+<script type="text/javascript">
+	/*
+	// 방법 1
+	$(function()
+	{
+		$("#positionId").change(function()
+		{
+			//alert("변경확인");
+			var params = "positionId=" + $("#positionId").val();
+			
+			$.ajax(
+			{
+				type:"POST"
+				, url:"ajax.action"
+				, data:param
+				, dataType:"json"
+				, success:function(args)
+				{
+					//var.minBasicPay = args.result;
+					$("#minBasicPay").html(args);
+				}
+				, error:function(e)
+				{
+					alert(e.responseText);
+				}
+			})
+		});
+	});
+	*/
+	
+	// 방법 2
+	$(document).ready(function()
+	{
+		// AJAX 요청 및 응답 처리
+		ajaxRequest();
+		
+		// jQuery-UI 캘린더를 불러오는 함수 처리(datepicker())
+		//-- id가 birthday인 걸 클릭하면 달력 나오게 하고 싶은 거
+ 		$("#birthday").datepicker(
+		{
+			//-- 여기까지하고 확인해보면 생년월일 클릭하면 달력나오고
+			//   날짜 선택하면 달력 사라지고 텍스트박스에 해당 날짜 들어감
+			//   하지만 jquery-ui.js 의 dateFormat: "mm/dd/yy" 에 구문에 의해서
+			//   날짜가 05/01/2022 로 들어가고 있음
+			// 아래와 같이 해당 속성 이름 쓰고 변경해줄 수 있다~
+			dateFormat: "yy-mm-dd"		// yyyy-mm-dd 가 아님을 주의하자
+			, changeMonth: true
+			, changeYear: true
+		});
+		
+		// 직위의 선택된 옵션이 변경되었을 경우 수행할 코드 처리
+		$("#positionId").change(function()
+		{
+			//alert("변경확인");
+			
+			ajaxRequest();
+		});
+		
+	});
+	
+	function ajaxRequest()
+	{
+		// 『jquery.post()』 / 『jquery.get()』
+		// 『$.post()』 / 『$.get()』
+		//-- jQuery 에서 AJAX 를 사용해야 할 경우 지원해 주는 함수
+		//   (서버측에서 요청한 데이터ㅡㄹ 받아오는 기능의 함수)
+		
+		// ※ 이 함수(『$.post()』) 의 사용 방법(방식)
+		//-- 『$.post(요청주소, 전송데이터, 응답액션처리)』
+		//    · 요청주소(url)
+		//       → 데이터를 요청할 파일에 대한 정보
+		//    · 전송데이터(data)
+		//       → 서버 측에 요청하는 과정에서 내가 전달할 파라미터
+		//    · 응답액션처리(function)
+		//       → 응답을 받을 수 있는 함수
+		//			여기서는 익명의 함수를 사용 → 단순 기능 구현 및 적용
+		//	※ 참고로 data 는 파라미터의 데이터타입을 그대로 취하게 되므로
+		//     html 이든, 문자열 이든 상관이 없다
+		$.post("ajax.action"
+			, {
+				positionId: $("#positionId").val()}
+				, function(data)
+				  {
+						$("#minBasicPay").html(data);
+		});
+	}
+	
+</script>
+</head>
+<body>
+
+<!--------------------------------------------------
+	#20. EmployeeInsertForm.jsp
+	- 직원 데이터 입력 페이지
+	- 관리자가 접근하는 직원 데이터 입력 폼 페이지
+--------------------------------------------------->
+
+<div>
+
+	<!-- 메뉴 영역 -->
+	<div>
+		<c:import url="EmployeeMenu.jsp"></c:import>
+	</div>
+	
+	<!-- 콘텐츠 영역 -->
+	<div id="content">
+	
+		<h1> [직원 관리] > [직원 정보 입력] </h1>
+		<hr />
+		
+		<form action="" method="post" id="employeeForm">
+			<table>
+				<tr>
+					<th>이름</th>
+					<td>
+						<input type="text" id="name" name="name" placeholder="이름"/>
+					</td>
+				</tr>
+				<tr>
+					<th>주민번호</th>
+					<td>
+						<input type="text" id="ssn1" name="ssn1" style="width: 100px;"/> -
+						<input type="text" id="ssn2" name="ssn2" style="width: 110px;"/>
+					</td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td>
+						<input type="text" id="birthday" name="birthday" placeholder="생년월일"/>
+					</td>
+				</tr>
+				<tr>
+					<th>양/음력</th>
+					<td>
+						<input type="radio" value="0" id="lunar0" name="lunar" checked="checked"/>
+						<label for="lunar0">양력</label>
+						<input type="radio" value="1" id="lunar1" name="lunar"/>
+						<label for="lunar1">음력</label>
+					</td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td>
+						<input type="tel" id="telephone" name="telephone" placeholder="ex) 010-1234-1234"/>
+					</td>
+				</tr>
+				<tr>
+					<th>지역</th>
+					<td>
+						<select name="regionId" id="regionId">
+							<!-- 
+							<option value="1">마포</option>
+							<option value="2">서초</option>
+							<option value="3">은평</option>
+							-->
+							<c:forEach var="region" items="${regionList }">
+								<option value="${region.regionId }">
+									${region.regionName }
+								</option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>부서</th>
+					<td>
+						<select name="departmentId" id="departmentId">
+							<!-- 
+							<option value="1">독서부</option>
+							<option value="2">바둑부</option>
+							<option value="3">축구부</option>
+							 -->
+							 <c:forEach var="department" items="${departmentList }">
+							 	<option value="${department.departmentId }">
+							 		${department.departmentName }
+							 	</option>
+							 </c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>직위</th>
+					<td>
+						<select name="positionId" id="positionId">
+							<!-- 
+							<option value="1">반장</option>
+							<option value="2">부반장</option>
+							<option value="3">팀장</option>
+							 -->
+							 <c:forEach var="position" items="${positionList }">
+							 	<option value="${position.positionId }">
+							 		${position.positionName }
+							 	</option>
+							 </c:forEach>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>기본급</th>
+					<td>
+						<input type="text" id="basicPay" name="basicPay"/>
+						(최소 기본급 
+						<span id="minBasicPay" style="color: red; font-weight: bold;">0</span>
+						원)
+					</td>
+				</tr>
+				<tr>
+					<th>수당</th>
+					<td>
+						<input type="text" id="extraPay" name="extraPay"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+					<br /><br />
+					
+						<button type="button" class="btn" id="submitBtn"
+						style="width: 40%;">직원 추가</button>
+						<button type="button" class="btn" id="listBtn"
+						style="width: 40%;">직원 리스트</button>
+						<br /><br />
+						
+						<span id="err" style="color: red; font-weight: bold;">
+						</span>
+					</td>
+				</tr>
+				
+			</table>
+		</form>
+		
+		
+	</div>	
+	<!-- 회사 소개 및 어플리케이션 소개 영역 -->
+	<div id="footer">
+	</div>
+
+</div>
+
+</body>
+</html>

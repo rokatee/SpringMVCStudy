@@ -500,44 +500,43 @@ dispatcher-servlet.xml
 				   Connection 객체에 대한 의존성 주입 준비
 				   (인터페이스 속성 구성 / setter 정의)
 
-   - EmployeeMenu.jsp		→ 메인 메뉴 뷰 페이지
+   - #13. EmployeeMenu.jsp	→ 메인 메뉴 뷰 페이지
    				   로그아웃 처리 기능
-   - menuStyle.css		→ 메뉴 스타일 구성
+   - #14. EmployeeList.jsp	→ 직원 리스트 출력 페이지
+   - #14-1. mainstyle.css	→ 메인 스타일 구성
+   - #14-2. menustyle.css	→ 메뉴 스타일 구성
 
-   - EmployeeList.jsp		→ 직원 리스트 출력 페이지
-   - main.css			→ 메인 스타일 구성
-
-
-
-   - EmployeeListController.java
+   - #15. EmployeeListController.java
      (employeelist.action)
    → employeeList 돌아가게 만들려면 controller 하나 만들어야 해서
    아래에 있는 EmployeeListController.java 먼저 작업함
 
-   - web.xml			→ DispatcherServlet 객체 등록
-				   URL 매핑 주소 등록
+   - #16. web.xml			→ DispatcherServlet 객체 등록
+				   	   URL 매핑 주소 등록
    → list가 일하게 하려니까 web.xml 도 작업
 
-   - dispatcher-servlet.xml	→ 컨트롤러 객체 등록
-				   URL 주소 등록
-				   SimpleDriverDataSource 객체 등록
-				   의존 객체 주입 설정
-				   DAO 객체 등록
+   - #17. dispatcher-servlet.xml	→ 컨트롤러 객체 등록
+				  	   URL 주소 등록
+				   	   SimpleDriverDataSource 객체 등록
+				   	   의존 객체 주입 설정
+				   	   DAO 객체 등록
    → 얘를 건드려야 listController 가 일할 수 있게 해주니까 
       얘 작업함
+
+   - #18. applicationContext.xml	→ 컨트롤러 객체 등록
 
 → 여기까지 하면 list 페이지 보여지는 거 까지 가능해짐~
 
 
 
-   - EmployeeInsertForm.jsp	→ 직원 데이터 입력 폼 페이지
-				   AJAX, jQuery 기능 포함
+   - #19. EmployeeInsertForm.jsp	→ 직원 데이터 입력 폼 페이지
+				   	   AJAX, jQuery 기능 포함
 
 employeelist view 폴더로 옮기고, action 속성 수정
 dispatcher servlet에 employeeinsertformcontroller 구성하러 감
 
-   - EmployeeInsertFormController.java
-     (employeeinsertform.action)
+   - #20. EmployeeInsertFormController.java
+          (employeeinsertform.action)
 
 EmployeeInsertForm.jsp 에 select option 저 상태로 하는 거 아니니까
 수정하러 감
@@ -548,10 +547,10 @@ EmployeeInsertForm.jsp 에 jquery  구문 작성
 
 dispatcher-servlet: AJAX 관련 Controller 등록
 
-   - AjaxController.java
-     (Ajax.action)
+   - #21. AjaxController.java
+          (Ajax.action)
 
-   - Ajax.jsp			→ AJAX 객체 구성 페이지
+   - #22. Ajax.jsp			→ AJAX 객체 구성 페이지
 
 그러면 Employeeinsertform.jsp 에서는 그럼 받은거 minbasicpay에 뿌릴거임
 dispatcher-servlet에서 ajax에도 dao 주입
@@ -560,31 +559,31 @@ employeeinsertform 내용추가 (내용 다 채우고 submit 되도록, 기본�
 dispatcher-servlet.xml → /employeeinsert.action 추가
 
 
-   - EmployeeInsertController.java
-     (employeeinsert.action)
+   - #23. EmployeeInsertController.java
+          (employeeinsert.action)
 
 dispatcher-servlet.xml → employeeinsert.action 안에 dao 추가
 
 
-   - EmployeeUpdateForm.jsp	→ 직원 데이터 수정 폼 페이지
-				   AJAX, jQuery 기능 포함
+   - #24. EmployeeUpdateForm.jsp	→ 직원 데이터 수정 폼 페이지
+				   	   AJAX, jQuery 기능 포함
 
 EmployeeList.jsp 수정버튼 변경하러감&script 작성
 dispatcher-servlet → employeeupdateform.action 에 controller mapping 시켜줘야함
 
-   - EmployeeUpdateFormController.java
-     (employeeupdateform.action)
+   - #25. EmployeeUpdateFormController.java
+          (employeeupdateform.action)
 
 dispatcher-servlet → employeeupdateform.action 에 property 4개 주입
 employeeupdateform.jsp 에 value 값 채워넣음 & ajax 처리살펴봄 (insert와 바뀐거 x)
 
 dispatcher-servlet → employeeupdate.action
-   - EmployeeUpdateController.java
-     (employeeupdate.action)
+   - #26. EmployeeUpdateController.java
+          (employeeupdate.action)
 
 
-   - EmployeeDeleteController.java
-     (employeedelete.action)
+   - #27. EmployeeDeleteController.java
+          (employeedelete.action)
 
 --지역--
 

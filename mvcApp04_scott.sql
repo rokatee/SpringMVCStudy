@@ -747,6 +747,11 @@ SELECT NAME FROM EMPLOYEE WHERE EMPLOYEEID = 'ID¹®ÀÚ¿­' AND SSN2 = CRYPTPACK.ENC
 
 --------------------------------------------------------------------------------
 
+DESC EMPLOYEEVIEW;
 
-desc employeeview;
+DESC EMPLOYEE;
+
+
+
+
 
