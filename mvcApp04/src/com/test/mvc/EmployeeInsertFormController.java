@@ -52,7 +52,7 @@ public class EmployeeInsertFormController implements Controller
 			mav.addObject("departmentList", departmentList);
 			mav.addObject("positionList", positionList);
 			
-			mav.setViewName("/WEB-INF/view/EmployeeInsertForm.jsp");
+			mav.setViewName("EmployeeInsertForm");
 			
 			
 		} catch (Exception e)

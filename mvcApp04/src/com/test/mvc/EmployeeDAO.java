@@ -255,11 +255,11 @@ public class EmployeeDAO implements IEmployeeDAO
 	    // 8, 9, 10 → 그냥 다 String으로 넣으면 안 된다!! check~!!!
 	    // 각 id 를 정수형태로 변환
 	    //pstmt.setString(8, employee.getDepartmentId());
-	    //pstmt.setString(9, employee.getRegionId());
-	    //pstmt.setString(10, employee.getPositionId());
+	    //pstmt.setString(9, employee.getPositionId());
+	    //pstmt.setString(10, employee.getRegionId());
 	    pstmt.setInt(8, Integer.parseInt(employee.getDepartmentId()));
-	    pstmt.setInt(9, Integer.parseInt(employee.getRegionId()));
-	    pstmt.setInt(10, Integer.parseInt(employee.getPositionId()));
+	    pstmt.setInt(9, Integer.parseInt(employee.getPositionId()));
+	    pstmt.setInt(10, Integer.parseInt(employee.getRegionId()));
 	    
 	    pstmt.setInt(11, employee.getBasicPay());
 	    pstmt.setInt(12, employee.getExtraPay());

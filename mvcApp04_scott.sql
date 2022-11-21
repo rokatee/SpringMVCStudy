@@ -2,7 +2,6 @@ SELECT USER
 FROM DUAL;
 --==>> SCOTT
 
-
 --○ 실습 테이블 생성(지역)
 CREATE TABLE REGION
 ( REGIONID      NUMBER          -- 지역 아이디   -- PK
@@ -668,7 +667,8 @@ FROM EMPLOYEE;
 */
 
 SELECT *
-FROM EMPLOYEEVIEW;
+FROM EMPLOYEEVIEW
+ORDER BY EMPLOYEEID;
 --==>>
 /*
 1	엄소연	941124	1994-11-24	0	양력	010-7193-4562	1	개발부	1	사원	1	서울	1500000	1500000	3000000	0
@@ -742,16 +742,21 @@ WHERE EMPLOYEEID = 1
 SELECT NAME FROM EMPLOYEE WHERE EMPLOYEEID = 'ID문자열' AND SSN2 = CRYPTPACK.ENCRYPT('PW문자열', 'PW문자열') AND GRADE = 0
 ;
 
-
-
-
 --------------------------------------------------------------------------------
 
 DESC EMPLOYEEVIEW;
 
 DESC EMPLOYEE;
 
-
-
-
-
+-- 테이블 및 시퀀스 삭제 시 사용
+--drop table EMPLOYEE;
+--drop SEQUENCE EMPLOYEESEQ;
+--
+--drop table region;
+--drop SEQUENCE REGIONSEQ;
+--
+--drop table POSITION;
+--drop SEQUENCE POSITIONSEQ;
+--
+--drop table DEPARTMENT;
+--drop SEQUENCE DEPARTMENTSEQ;

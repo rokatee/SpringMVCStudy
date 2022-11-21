@@ -49,7 +49,7 @@ public class AjaxController implements Controller
 			
 			mav.addObject("result", result);
 			
-			mav.setViewName("/WEB-INF/view/Ajax.jsp");
+			mav.setViewName("Ajax");
 			
 		} catch (Exception e)
 		{

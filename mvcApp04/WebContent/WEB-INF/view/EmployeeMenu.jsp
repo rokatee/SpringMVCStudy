@@ -9,6 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>EmployeeMenu.jsp</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <style type="text/css">
 
    .btn-group{width: 100%;}

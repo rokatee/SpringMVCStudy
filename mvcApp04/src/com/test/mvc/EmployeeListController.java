@@ -46,7 +46,8 @@ public class EmployeeListController implements Controller
 			
 			mav.addObject("employeeList", employeeList);
 			
-			mav.setViewName("/WEB-INF/view/EmployeeList.jsp");
+			//mav.setViewName("/WEB-INF/view/EmployeeList.jsp");
+			mav.setViewName("EmployeeList");
 			
 		} catch (Exception e)
 		{

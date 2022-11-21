@@ -49,39 +49,100 @@
 	// 방법 2
 	$(document).ready(function()
 	{
-		// AJAX 요청 및 응답 처리
+		// Ajax 요청 및 응답 처리
 		ajaxRequest();
+		//-- 지금은 페이지 최초 요청되었을 때만 minBasicPay 뿌려주는 형태
+		//   그게 아니라 selectbox 바뀔 때마다 뿌려줘야 한다. (Line 51에 작성)
+		
+		// 테스트
+		//alert("확인");
 		
 		// jQuery-UI 캘린더를 불러오는 함수 처리(datepicker())
 		//-- id가 birthday인 걸 클릭하면 달력 나오게 하고 싶은 거
- 		$("#birthday").datepicker(
+		$("#birthday").datepicker(
 		{
 			//-- 여기까지하고 확인해보면 생년월일 클릭하면 달력나오고
 			//   날짜 선택하면 달력 사라지고 텍스트박스에 해당 날짜 들어감
-			//   하지만 jquery-ui.js 의 dateFormat: "mm/dd/yy" 에 구문에 의해서
-			//   날짜가 05/01/2022 로 들어가고 있음
+			//   날짜 05/01/2022 로 들어가고 있음
+			//   jquery-ui.js 의 dateFormat: "mm/dd/yy" 에 구문에 의해서
 			// 아래와 같이 해당 속성 이름 쓰고 변경해줄 수 있다~
-			dateFormat: "yy-mm-dd"		// yyyy-mm-dd 가 아님을 주의하자
+			
+			dateFormat: "yy-mm-dd"
 			, changeMonth: true
 			, changeYear: true
 		});
 		
-		// 직위의 선택된 옵션이 변경되었을 경우 수행할 코드 처리
+		// 먼저, 아래에서 ajax요청과 관련된 함수 만들고 오자
+		
+		// 직위(select)의 선택된 내용이 변경되었을 경우 수행해야 할 코드 처리
 		$("#positionId").change(function()
-		{
-			//alert("변경확인");
+		{	
+			// 테스트
+			//alert("변경~!!!");
 			
+			// Ajax 요청 및 응답 처리
 			ajaxRequest();
+		});
+		
+		
+		// 직원 추가 버튼이 클릭되었을 때 수행해야 할 코드 처리
+		$("#submitBtn").click(function()
+		{
+			// 테스트
+			//alert("버튼 클릭~!!!");
+			
+			// 테스트
+			//alert($("#minBasicPay").val());		//--(Ⅹ)
+			// └→ 아무것도 안나옴. 이렇게 얻어낼 수 없다.
+			//alert($("#minBasicPay").text());		//--(○)
+			
+			// 1. 데이터 검사
+			//-- 공란(입력항목 누락) 없이 모두 작성되었는지에 대한 여부 확인
+			if ($("#name").val()=="" || $("#ssn1").val()=="" || $("#ssn2").val()==""
+					|| $("#birthday").val()=="" || $("#telephone").val()==""
+					|| $("#basicPay").val()=="")
+			{
+				$("#err").html("필수 입력 항목이 누락되었습니다.");
+				$("#err").css("display", "inline");
+				return;								//-- submit 액션 처리 중단
+			}
+			
+			// 2. 최소 기본급 유효성 검사
+			//-- 입력한 기본급이 최소 기본급보다 작은지에 대한 여부 확인
+			// if (사용자가입력한기본급 > 직급별최소기본급) {return;}
+			// $("#basicPay").val() ) < $("#minBasicPay").text() 그냥 이대로 산술비교 불가
+			// 정수형태로 변환 해줘야 한다.
+			if ( parseInt($("#minBasicPay").text()) > parseInt($("#basicPay").val()) )
+			{
+				$("#err").html("입력하신 기본급이 최소 기본급보다 작습니다.");
+				$("#err").css("display", "inline");
+				return;								//-- submit 액션 처리 중단
+			}
+			
+			// 폼 submit 액션 처리 수행
+			$("#employeeForm").submit();
+			
+		});
+	
+		// 직원 리스트 버튼이 클릭되었을 경우 수행할 코드 처리
+		//onclick="location.href='employeeinsertform.action'"
+		$("#listBtn").click(function()
+		{
+			//alert("버튼클릭확인");
+			
+			
 		});
 		
 	});
 	
 	function ajaxRequest()
 	{
+		//alert("Ajax 요청 및 응답 처리");
+		
 		// 『jquery.post()』 / 『jquery.get()』
 		// 『$.post()』 / 『$.get()』
 		//-- jQuery 에서 AJAX 를 사용해야 할 경우 지원해 주는 함수
-		//   (서버측에서 요청한 데이터ㅡㄹ 받아오는 기능의 함수)
+		//   (서버측에서 요청한 데이터를 받아오는 기능의 함수)
 		
 		// ※ 이 함수(『$.post()』) 의 사용 방법(방식)
 		//-- 『$.post(요청주소, 전송데이터, 응답액션처리)』
@@ -92,6 +153,7 @@
 		//    · 응답액션처리(function)
 		//       → 응답을 받을 수 있는 함수
 		//			여기서는 익명의 함수를 사용 → 단순 기능 구현 및 적용
+		
 		//	※ 참고로 data 는 파라미터의 데이터타입을 그대로 취하게 되므로
 		//     html 이든, 문자열 이든 상관이 없다
 		$.post("ajax.action"
@@ -101,6 +163,13 @@
 				  {
 						$("#minBasicPay").html(data);
 		});
+		//--① ~~.action 이라는 약속은 지켜서 구성해야 한다.
+		//  ② 직위의 selectBox 에 선택된 Id를 넘겨주면 된다.
+		//  ③ position 넘겨주고 받은거 파라미터로 받는 함수
+		//     id가 minBasicPay인 거에 그 값 넣어서 출력되게 해주면 된다.
+		
+		// 그러면 ajax.action 에 응답하는 뭔가가 있어야 한다.
+		// → dispatcher-servlet 건드려야 한다.
 	}
 	
 </script>
@@ -126,7 +195,7 @@
 		<h1> [직원 관리] > [직원 정보 입력] </h1>
 		<hr />
 		
-		<form action="" method="post" id="employeeForm">
+		<form action="employeeinsert.action" method="post" id="employeeForm">
 			<table>
 				<tr>
 					<th>이름</th>
@@ -235,10 +304,11 @@
 						<button type="button" class="btn" id="submitBtn"
 						style="width: 40%;">직원 추가</button>
 						<button type="button" class="btn" id="listBtn"
-						style="width: 40%;">직원 리스트</button>
+						style="width: 40%;"
+						onclick="location.href='employeeinsertform.action'">직원 리스트</button>
 						<br /><br />
 						
-						<span id="err" style="color: red; font-weight: bold;">
+						<span id="err" style="color: red; font-weight: bold; display: none;">
 						</span>
 					</td>
 				</tr>

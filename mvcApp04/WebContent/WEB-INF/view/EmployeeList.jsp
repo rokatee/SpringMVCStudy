@@ -15,6 +15,21 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
+
+	$(function()
+	{
+		// 테스트
+		//alert("확인");
+		
+		// 수정 버튼 클릭 시 액션 처리
+		$(".updateBtn").click(function()
+		{
+			//alert("수정 버튼 클릭");
+			
+			$(location).attr("href", "employeeupdateform.action?employeeId=" + $(this).val());
+		});
+	});
+	
 </script>
 <!-- 스타일 적용이 안된다면 크롬 > 설정 > 개인정보 및 보안 > 인터넷 기록 삭제 -->
 </head>
@@ -160,11 +175,12 @@
 					</td>
 					
 					<%-- <td>${employee.grade }</td> --%>
-					<td>${employee.grade==0? "일반사원" : "관리자" }</td>
+					<td>${employee.grade==0? "관리자" : "일반사원" }</td>
 					<%-- 삼항 연산자 활용 --%>
 					
 					<td>
-						<button type="button" class="btn btn-primary control updateBtn">수정</button>
+						<button type="button" class="btn btn-primary control updateBtn"
+						value="${employee.employeeId }">수정</button>
 					</td>
 					
 					<td>
