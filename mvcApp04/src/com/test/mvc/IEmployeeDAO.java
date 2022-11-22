@@ -41,6 +41,19 @@ public interface IEmployeeDAO
 	//   수정할 때 수정폼에 그 사원의 데이터를 얻어와서 
 	//   수정폼 안에 내용 채워넣어놓으려고!
 	
+	// 수정폼에서 주민번호 뒷자리가 일치하는 지 체크하는 메소드
+	public String pw(String employId, String ssn2) throws SQLException;
+	
+	// 로그인 관련 기능 추가
+	public String login(String id, String pw) throws SQLException;
+	//-- 일반직원
+	public String loginAdmin(String id, String pw) throws SQLException;
+	//-- 관리자
+	
+	
+	
+	
+	
 	
 	
 }

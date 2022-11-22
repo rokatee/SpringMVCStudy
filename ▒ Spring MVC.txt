@@ -585,6 +585,16 @@ dispatcher-servlet → employeeupdate.action
    - #27. EmployeeDeleteController.java
           (employeedelete.action)
 
+   - #28. LoginFormController.java
+
+   - #29. LoginForm.jsp		→ 관리자, 일반사원 로그인 폼 페이지
+			  	   ID(employeeId), PW(주민번호 뒤 7자리) 입력.	
+   - #30. LoginController.java
+
+   - #31. LogoutController.java
+
+   - #32. LogoutForm.jsp	→ 로그아웃 처리와 관련한 폼 페이지
+
 --지역--
 
 dispatcher-servlet.xml (/reglist.action)
@@ -632,11 +642,6 @@ dispatcher-servlet.xml (/regiondelete.action)
 
 
 
-
-
-   - LoginForm.jsp		→ 관리자, 일반사원 로그인 폼 페이지
-			  	   ID(employeeId), PW(주민번호 뒤 7자리) 입력.	
-   - LogoutForm.jsp		→ 로그아웃 처리와 관련한 폼 페이지
  
    - EmpList.jsp		→ 일반 직원 전용 리스트 출력 페이지
 				   로그아웃 처리
@@ -662,10 +667,6 @@ dispatcher-servlet.xml (/regiondelete.action)
    - PositionUpdateFormController.java
    - PositionUpdateController.java
    - PositionDeleteController.java
-
-   - LoginFormController.java
-   - LoginController.java
-   - LogoutController.java
    
    - EmpListController.java
 

@@ -12,7 +12,7 @@
 	<!-- DispatcherServlet 이 무슨 일 해야하는지 적어놓은거 -->
 	
 	<!-- ※ 『dispacher-servlet.xml』 의 기본 샘플 코드 -->
-	<!-- 이 코드는 기본 설정에 대한 템플릿을 복사하기 위해 스프링 doc 를 참조하여 작성한다 -->
+	<!-- 이 코드는 기본 설정에 대한 템플릿을 복사하기 위해 스ㅋㅋㅋ프링 doc 를 참조하여 작성한다 -->
 	<!-- → 1. 『C:\s-f-3.0.2-with-docs\docs\spring-framework-reference\pdf』 경로로 이동 -->
 	<!--    2. 『spring-framework-reference.pdf』 파일 실행 -->
 	<!--    3. 본문 내용의 425 페이지(찾아서 직접 이동 450/805 페이지) 로 이동 -->
@@ -194,6 +194,11 @@
 		<property name="dao" ref="employeeDAO"></property>
 	</bean>
 	
+	<!-- AJAXSsn2 관련 Controller 등록 -->
+	<bean name="/ajaxssn2.action" class="com.test.mvc.AjaxSsn2Controller">
+		<property name="dao" ref="employeeDAO"></property>
+	</bean>
+	
 	<!-- Employee 관련 Controller 동록 -->
 	<!-- 직원 리스트 Controller 등록 -->
 	<bean name="/employeelist.action" class="com.test.mvc.EmployeeListController">
@@ -215,6 +220,7 @@
 	</bean>
 	
 	<!-- 직원 데이터 수정 폼 Controller 등록 -->
+	<!-- 기존의 직원 데이터 입력 폼 Controller 등록 내용과 비교 -->
 	<bean name="/employeeupdateform.action" class="com.test.mvc.EmployeeUpdateFormController">
 		<!-- 앞에 name 의 속성값이 의미하는 것은 EmployeeUpdateFormController의 속성 이름을 의미한다. -->
 		<!-- 그럼 걔에 해당하는 setter()를 호출하는 것 -->
@@ -231,6 +237,26 @@
 	<bean name="/employeeupdate.action" class="com.test.mvc.EmployeeUpdateController">
 		<property name="dao" ref="employeeDAO"></property>
 	</bean>
+
+	<!-- 직원 데이터 삭제 액션 Controller 등록 -->
+	<bean name="/employeedelete.action" class="com.test.mvc.EmployeeDeleteController">
+		<property name="dao" ref="employeeDAO"></property>
+	</bean>
 	
+	<!-- Login 폼 페이지 요청 Controller 등록 -->
+	<bean name="/loginform.action" class="com.test.mvc.LoginFormController"></bean>
+	
+	<!-- Login 데이터 액션 Controller 등록 -->
+	<bean name="/login.action" class="com.test.mvc.LoginController">
+		<property name="dao" ref="employeeDAO"></property>
+	</bean>
+	
+	<!-- 일반 직원 리스트 Controller 등록 -->
+	<bean name="/emplist.action" class="com.test.mvc.EmpListController">
+		<property name="dao" ref="employeeDAO"></property>
+	</bean>
+	
+	<!-- Logout 폼 페이지 요청 Controller 등록 -->
+	<bean name="/logout.action" class="com.test.mvc.LogoutController"></bean>
 	
 </beans>

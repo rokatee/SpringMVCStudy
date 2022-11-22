@@ -1,5 +1,5 @@
 /*=====================================================================
-	#26. EmployeeUpdateController.java
+	#25. EmployeeUpdateController.java
 	- 사용자 정의 컨트롤러 클래스
 	- 직원 데이터 수정 액션 수행 
 	  → employeelist.action 을 다시 요청할 수 있도록 안내 (redirect)
@@ -16,11 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-// ※ Spring 이 제공하는 『Controller』 인터페이스를 구현함으로서
-//    사용자 정의 컨트롤러 클래스를 구성한다
-
-public class EmployeeUpdateController implements Controller
+public class EmployeeUpdateController_1 implements Controller
 {
+	// dao 주입시켜야 하니까
+	// → 인터페이스 형태로 속성 만들고, setter 구성해야 한다.
 	private IEmployeeDAO dao;
 	
 	public void setDao(IEmployeeDAO dao)
@@ -28,17 +27,14 @@ public class EmployeeUpdateController implements Controller
 		this.dao = dao;
 	}
 
-	// Controller 인터페이스의 handleRequest() 메소드 재정의
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		// 컨트롤러 내부 액션 처리 코드
+		// 액션 코드 
 		
 		ModelAndView mav = new ModelAndView();
-		
-		// 이전 페이지(EmployeeUpdateForm.jsp)로부터 데이터 수신
-		//-- employeeId, name, ssn1, ssn2, birthday, lunar, telephone
-		//   regionId, departmentId, positionId, basicPay, extraPay
+
+		// 데이터 수신 (EmployeeUpdateForm.jsp(수정폼) 로 부터 넘겨받은 데이터)
 		String employeeId = request.getParameter("employeeId");
 		String name = request.getParameter("name");
 		String ssn1 = request.getParameter("ssn1");
@@ -53,7 +49,7 @@ public class EmployeeUpdateController implements Controller
 		String extraPay = request.getParameter("extraPay");
 		
 		try
-		{
+		{	
 			Employee employee = new Employee();
 			
 			employee.setEmployeeId(employeeId);
@@ -95,5 +91,5 @@ public class EmployeeUpdateController implements Controller
 		
 		return mav;
 	}
-	
+
 }

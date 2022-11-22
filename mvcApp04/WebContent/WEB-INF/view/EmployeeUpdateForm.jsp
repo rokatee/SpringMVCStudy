@@ -8,17 +8,62 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>EmployeeInsertForm.jsp</title>
+<title>EmployeeUpdateForm.jsp</title>
+
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/jquery-ui.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<style type="text/css">
+	
+	#content
+	{
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		width: 500px;
+		padding: 15px;
+		margin: 30px;
+	}
+	
+	.input-group
+	{
+		margin: 10px;
+	}
+		
+</style>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/js/jquery-ui.js"></script>
-
 <script type="text/javascript">
+	/*
+	// 방법 1
+	$(function()
+	{
+		$("#positionId").change(function()
+		{
+			//alert("변경확인");
+			var params = "positionId=" + $("#positionId").val();
+			
+			$.ajax(
+			{
+				type:"POST"
+				, url:"ajax.action"
+				, data:param
+				, dataType:"json"
+				, success:function(args)
+				{
+					//var.minBasicPay = args.result;
+					$("#minBasicPay").html(args);
+				}
+				, error:function(e)
+				{
+					alert(e.responseText);
+				}
+			})
+		});
+	});
+	*/
 	
-	// $();
-	// jquery();
+	// 방법 2
 	$(document).ready(function()
 	{
 		// Ajax 요청 및 응답 처리
@@ -44,7 +89,6 @@
 			, changeYear: true
 		});
 		
-		
 		// 먼저, 아래에서 ajax요청과 관련된 함수 만들고 오자
 		
 		// 직위(select)의 선택된 내용이 변경되었을 경우 수행해야 할 코드 처리
@@ -54,12 +98,11 @@
 			//alert("변경~!!!");
 			
 			// Ajax 요청 및 응답 처리
-			ajaxRequest(); 
-			//-- 직위 바뀐거에 맞춰서 최소기본급 바껴야 하니까
+			ajaxRequest();
 		});
 		
 		
-		// 직원 변경 버튼이 클릭되었을 때 수행해야 할 코드 처리
+		// 직원 추가 버튼이 클릭되었을 때 수행해야 할 코드 처리
 		$("#submitBtn").click(function()
 		{
 			// 테스트
@@ -70,8 +113,8 @@
 			// └→ 아무것도 안나옴. 이렇게 얻어낼 수 없다.
 			//alert($("#minBasicPay").text());		//--(○)
 			
-			
-			// 데이터 검사(누락된 입력값이 있는지 없는지에 대한 여부 확인)
+			// 1. 데이터 검사
+			//-- 공란(입력항목 누락) 없이 모두 작성되었는지에 대한 여부 확인
 			if ($("#name").val()=="" || $("#ssn1").val()=="" || $("#ssn2").val()==""
 					|| $("#birthday").val()=="" || $("#telephone").val()==""
 					|| $("#basicPay").val()=="")
@@ -81,52 +124,63 @@
 				return;								//-- submit 액션 처리 중단
 			}
 			
-			
-			// 최소 기본급에 대한 유효성 검사
-			// if (직급별최소기본급 > 사용자가입력한기본급) {return;}
-			// $("#minBasicPay").text() > $("#basicPay").val() 그냥 이대로 산술비교 불가
-			// 정수형태로 변환해줘야 한다.
+			// 2. 최소 기본급 유효성 검사
+			//-- 입력한 기본급이 최소 기본급보다 작은지에 대한 여부 확인
+			// if (사용자가입력한기본급 > 직급별최소기본급) {return;}
+			// $("#basicPay").val() ) < $("#minBasicPay").text() 그냥 이대로 산술비교 불가
+			// 정수형태로 변환 해줘야 한다.
 			if ( parseInt($("#minBasicPay").text()) > parseInt($("#basicPay").val()) )
 			{
 				$("#err").html("입력하신 기본급이 최소 기본급보다 작습니다.");
 				$("#err").css("display", "inline");
+				
 				return;								//-- submit 액션 처리 중단
 			}
-			
-			
+		
 			// 폼 submit 액션 처리 수행
-			$("#employeeForm").submit();
-				
+			//$("#employeeForm").submit();
+			ajax2Request();
+			
+		});
+	
+		// 직원 리스트 버튼이 클릭되었을 경우 수행할 코드 처리
+		//onclick="location.href='employeeinsertform.action'"
+		$("#listBtn").click(function()
+		{
+			//alert("버튼클릭확인");
+			$(location).attr("href", "employeelist.action");
+			
 		});
 		
 	});
 	
-	
-	// ajax요청과 관련된 함수
 	function ajaxRequest()
-	{	
+	{
 		//alert("Ajax 요청 및 응답 처리");
-	
-		// 『$.post()』	/ 『$.get()』
-		//-- jQuery 에서 Ajax 를 써야 할 경우 지원해주는 함수
-		//   (서버 측에서 요청한 데이터를 받아오는 기능의 함수)
 		
-		// ※ 이 함수(『$.post()』)의 사용 방법(방식)
+		// 『jquery.post()』 / 『jquery.get()』
+		// 『$.post()』 / 『$.get()』
+		//-- jQuery 에서 AJAX 를 사용해야 할 경우 지원해 주는 함수
+		//   (서버측에서 요청한 데이터를 받아오는 기능의 함수)
+		
+		// ※ 이 함수(『$.post()』) 의 사용 방법(방식)
 		//-- 『$.post(요청주소, 전송데이터, 응답액션처리)』
-		//   ·요청주소(url)
-		//     → 데이터를 요청할 파일에 대한 정보
-		//   ·전송데이터(data)
-		//     → 서버 측에 요청하는 과정에서 내가 전달할 파라미터
-		//   ·응답액션처리(function)
-		//     → 응답을 받을 수 있는 함수
-		//        기능 처리
+		//    · 요청주소(url)
+		//       → 데이터를 요청할 파일에 대한 정보
+		//    · 전송데이터(data)
+		//       → 서버 측에 요청하는 과정에서 내가 전달할 파라미터
+		//    · 응답액션처리(function)
+		//       → 응답을 받을 수 있는 함수
+		//			여기서는 익명의 함수를 사용 → 단순 기능 구현 및 적용
 		
-		// ※ 참고로... data 는 파라미터의 데이터타입을 그대로 취하게 되므로
-		//    html 이든... 문자열이든... 상관이 없다.
-		
-		$.post("ajax.action", {positionId: $("#positionId").val()}, function(data)
-		{
-			$("#minBasicPay").html(data);
+		//	※ 참고로 data 는 파라미터의 데이터타입을 그대로 취하게 되므로
+		//     html 이든, 문자열 이든 상관이 없다
+		$.post("ajax.action"
+			, {
+				positionId: $("#positionId").val()}
+				, function(data)
+				  {
+					$("#minBasicPay").html(data);
 		});
 		//--① ~~.action 이라는 약속은 지켜서 구성해야 한다.
 		//  ② 직위의 selectBox 에 선택된 Id를 넘겨주면 된다.
@@ -137,7 +191,29 @@
 		// → dispatcher-servlet 건드려야 한다.
 		
 	}
+	
+	function ajax2Request()
+	{
+		$.ajaxSetup({async: false});
+		$.post("ajaxssn2.action"
+				, {
+					employeeId: $("#employeeId").val(), ssn2: $("#ssn2").val()
+				}, function(data)
+			    { 
+					if($("#ssn2").val() != $.trim(data))
+					{
+						$("#err").html("주민등록번호 뒷자리가 일치하지 않습니다");
+						$("#err").css("display", "inline");
+						return;								//-- submit 액션 처리 중단
+					}
+					else
+					{
+						$("#employeeForm").submit();
+					}
+			});
+	}
 
+	
 </script>
 </head>
 <body>
@@ -157,171 +233,151 @@
 	employeeupdate.action
 	employeeupdateController
 -->
-<div>
 
-	<!-- 메뉴 영역 -->
-	<div>
-		<c:import url="EmployeeMenu.jsp"></c:import>
-	</div>
+<!-- 메뉴 영역 -->
+<div>
+	<c:import url="EmployeeMenu.jsp"></c:import>
+</div>
+
+<label style="text-align: left;">직원 관리 > 직원 정보 수정</label>
+<hr />
+
+<div align="center">
 	
 	<!-- 콘텐츠 영역 -->
-	<div id="content">
-	
-		<h1> [ 직원 변경 ] </h1>
-		<hr />
+	<div id="content" align="left">
 		
 		<form action="employeeupdate.action" method="post" id="employeeForm">
-			<table>
+			<div class="form-group">
 			
-				<!-- 기존 입력폼에서 추가되는 항목 -->
-				<tr>
-					<th>사원번호</th>
-					<td>
-						<!-- 사원번호는 바꿀거 아니라서 readonly 속성 부여함 -->
-						<input type="text" id="employeeId" name="employeeId" readonly="readonly" 
-						value="${employee.employeeId }"/>
-					</td>
-				</tr>
+				<!-- EmployeeInsertForm.jsp 와 비교하여 -->
+				<!-- 기존 내용에 직원번호 항목 추가 -->
+				<div class="input-group">
+					<div class="input-group-addon">직원번호</div>
+					<input type="text" id="employeeId" name="employeeId"
+					value="${employee.employeeId }"  readonly="readonly"/>
+				</div>
 			
-				<tr>
-					<th>이름</th>
-					<td>
-						<input type="text" id="name" name="name" value="${employee.name }" />
-					</td>
-				</tr>
-				<tr>
-					<th>주민번호</th>
-					<td>
-						<input type="text" id="ssn1" name="ssn1" style="width: 100px;" 
-						value="${employee.ssn1 }" /> -
-						<input type="password" id="ssn2" name="ssn2" style="width: 110px;" 
-						placeholder="뒤 7자리" />
-						<!-- 그냥 원래 가지고 있는 값 넣어주는거 보다는 -->
-						<!-- 주민번호 뒷자리는 입력하는 과정에서 다시 입력하게 하는게 바람직하다. -->
-					</td>
-				</tr>
-				<tr>
-					<th>생년월일</th>
-					<td>
-						<input type="text" id="birthday" name="birthday" value="${employee.birthday }" />
-					</td>
-				</tr>
-				<tr>
-					<th>양/음력</th>
-					<td>
-						<!-- 어떤 때 양력으로 찍히는지, 음력으로 찍히는지 확인하고 해줘야한다. -->
-						<!-- 바인딩한 데이터가 양력으로 들어있으면 양력 radio button 에 checked -->
-						<!-- 바인딩한 데이터가 음력으로 들어있으면 음력 radio button 에 checked -->
-						<!-- ┌→ 0면 checked, 아니라면 checked 안한다는 뜻 -->
-						<input type="radio" value="0" name="lunar" id="lunar0"
-                 		 ${employee.lunar==0 ? "checked=\"cheked\"" : "" }>
-                  		<label for="lunar0">양력</label>
-                 		<input type="radio" value="1" name="lunar" id="lunar1"
-                 		${employee.lunar==1 ? "checked=\"cheked\"" : "" }>
-                  		<label for="lunar1">음력</label>
-               		</td>
-            	</tr>
-				<tr>
-					<th>전화번호</th>
-					<td>
-						<input type="tel" id="telephone" name="telephone" 
-						value="${employee.telephone }" />
-					</td>
-				</tr>
+				<div class="input-group">
+					<div class="input-group-addon">이름</div>
+					<input type="text" id="name" name="name" class="form-control" value="${employee.name }">
+				</div>
 				
-				<tr>
-					<th>지역</th>	
-					<td>
-						<select id="regionId" name="regionId">
-							<!-- 
-							<option value="1">강북</option>
-							<option value="2">강남</option>
-							<option value="3">마포</option>
-							<option value="4">서대문</option>
-							<option value="5">은평</option>
-							-->
-							<c:forEach var="region" items="${regionList }">
-								<!-- employee로부터 얻어온 regionId 와 region의 regionId가 같으면 selected -->
-								<option value="${region.regionId }"
-								${employee.regionId == region.regionId ? "selected=\"selected\"" : "" 
-								}>${region.regionName }</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>부서</th>
-					<td>
-						<select id="departmentId" name="departmentId">
-							<!-- 
-							<option value="1">독서부</option>
-							<option value="2">원예부</option>
-							<option value="3">축구부</option>
-							<option value="4">야구부</option>
-							-->
-							<c:forEach var="department" items="${departmentList }">
-								<option value="${department.departmentId }"
-								${employee.departmentId == department.departmentId ? "selected=\"selected\"" : "" 
-								}>${department.departmentName }</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>직위</th>
-					<td>
-						<select id="positionId" name="positionId">
-							<!-- 
-							<option value="1">팀장</option>
-							<option value="2">기술고문</option>
-							<option value="3">팀원</option>
-							<option value="4">엑스맨</option>
-							-->
-							<c:forEach var="position" items="${positionList }">
-								<option value="${position.positionId }"
-								${employee.positionId == position.positionId ? "selected=\"selected\"" : "" 
-								}>${position.positionName }</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
+				<div class="input-group">
+					<div class="input-group-addon">주민번호</div>
+					<input type="text" id="ssn1" name="ssn1" class="form-control" value="${employee.ssn1 }"/>
+					<div class="input-group-addon">-</div>
+					<input type="password" id="ssn2" name="ssn2" class="form-control" />
+				</div>
+					
+				<div class="input-group">
+					<div class="input-group-addon">생년월일</div>
+					<input type="text" id="birthday" name="birthday" class="form-control" value="${employee.birthday }"/>
+				</div>
 				
-				<tr>
-					<th>기본급</th>
-					<td>
-						<input type="text" id="basicPay" name="basicPay" 
-						value="${employee.basicPay }"/>
-						(최소 기본급 <span id="minBasicPay"
-						style="color: red; font-weight: bold;">0</span>원)
-					</td>
-				</tr>
-				<tr>
-					<th>수당</th>
-					<td>
-						<input type="text" id="extraPay" name="extraPay" 
-						value="${employee.extraPay }"/>
-					</td>
-				</tr>
+				<div class="input-group">
+					<div class="input-group-addon">양 / 음력</div>
+					<div class="form-control">
+						<input type="radio" value="0" name="lunar" id="lunar0" 
+						${employee.lunar==0 ? "checked=\"checked\"" : "" }/>
+						<label for="lunar0">양력</label>
+						<input type="radio" value="1" name="lunar" id="lunar1" 
+						${employee.lunar==1 ? "checked=\"checked\"" : "" }/>
+						<label for="lunar1">음력</label>
+					</div>
+				</div>
+
+				<div class="input-group">
+					<div class="input-group-addon">전화번호</div>
+					<input type="tel" id="telephone" name="telephone" class="form-control" value="${employee.telephone }"/>
+				</div>
+
+				<div class="input-group">
+					<div class="input-group-addon">지역</div>
+					<select name="regionId" id="regionId" class="form-control">
+						<!-- 
+						<option value="1">마포</option>
+						<option value="2">서초</option>
+						<option value="3">은평</option>
+						-->
+						<c:forEach var="region" items="${regionList }">
+						<option value="${region.regionId }" 
+							${employee.regionId == region.regionId ? "selected=\"selected\"" : "" }>
+							${region.regionName }
+						</option>
+						</c:forEach>
+					</select>
+				</div>
 				
-				<tr>
-					 <td colspan="2" align="center">
-					 	<br /><br />
-					 	
-					 	<button type="button" class="btn" id="submitBtn"
-					 	style="width: 40%; height: 50px;">직원 변경</button>
-					 	<button type="button" class="btn" id="listBtn"
-					 	style="width: 40%; height: 50px;"
-					 	onclick="location.href='employeelist.action'">직원 리스트</button>
-					 	<br /><br />
-					 	
-					 	<span id="err" style="color: red; font-weight: bold; display: none;"></span>
-					 </td>
-				</tr>
+				<div class="input-group">
+					<div class="input-group-addon">부서</div>
+					<select name="departmentId" id="departmentId" class="form-control"> 
+						<!-- 
+						<option value="1">독서부</option>
+						<option value="2">바둑부</option>
+						<option value="3">축구부</option>
+						 -->
+						 <c:forEach var="department" items="${departmentList }">
+						 	<option value="${department.departmentId }"
+						 		${employee.departmentId == department.departmentId ? "selected=\"selected\"" : "" }>
+						 		${department.departmentName }
+						 	</option>
+						 </c:forEach>
+					</select>
+				</div>
+						
+				<div class="input-group">
+					<div class="input-group-addon">직위</div>
+					<select name="positionId" id="positionId" class="form-control">
+						<!-- 
+						<option value="1">반장</option>
+						<option value="2">부반장</option>
+						<option value="3">팀장</option>
+						 -->
+						 <c:forEach var="position" items="${positionList }">
+						 	<option value="${position.positionId }"
+						 		${employee.positionId == position.positionId ? "selected=\"selected\"" : "" }>
+						 		${position.positionName }
+						 	</option>
+						 </c:forEach>
+					</select>
+				</div>
+						
+				<div class="input-group">
+					<div class="input-group-addon">기본급</div>
+					<input type="text" id="basicPay" name="basicPay" class="form-control"
+					value="${employee.basicPay }"/>
+					<div class="input-group-addon">원</div>
+					
+					<div class="input-group-addon">수당</div>
+					<input type="text" id="extraPay" name="extraPay" class="form-control"
+					value="${employee.extraPay }"/>
+					<div class="input-group-addon">원</div>
+				</div>
+					
+					
+				<div class="input-group" style="text-align: left;">
+					(최소 기본급
+					<span id="minBasicPay" style="color: red; font-weight: bold;">0</span>
+					원)
+				</div>
+				<br />
 				
-			</table>
+				<div class="input-group">
+					<div class="btn-group" role="group" style="width: 100%;">
+						<button type="button" class="btn btn-primary btn-lg" id="submitBtn">직원 수정</button>
+						<button type="button" class="btn btn-default btn-lg" id="listBtn">직원 리스트</button>
+					</div>
+				</div>
+				<br />
+						
+				<span id="err" style="color: red; font-weight: bold; display: none;">
+				</span>
+				
+			</div>
 		</form>
-	
-	</div>
+		
+	</div>	
 	
 	<!-- 회사 소개 및 어플리케이션 소개 영역 -->
 	<div id="footer">
@@ -331,12 +387,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-

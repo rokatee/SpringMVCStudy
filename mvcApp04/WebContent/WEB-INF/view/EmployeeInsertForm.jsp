@@ -12,10 +12,27 @@
 
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/jquery-ui.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<style type="text/css">
+	
+	#content
+	{
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		width: 500px;
+		padding: 15px;
+		margin: 30px;
+	}
+	
+	.input-group
+	{
+		margin: 10px;
+	}
+		
+</style>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/js/jquery-ui.js"></script>
-
 <script type="text/javascript">
 	/*
 	// 방법 1
@@ -129,7 +146,7 @@
 		$("#listBtn").click(function()
 		{
 			//alert("버튼클릭확인");
-			
+			$(location).attr("href", "employeelist.action");
 			
 		});
 		
@@ -182,142 +199,137 @@
 	- 관리자가 접근하는 직원 데이터 입력 폼 페이지
 --------------------------------------------------->
 
+<!-- 메뉴 영역 -->
 <div>
+	<c:import url="EmployeeMenu.jsp"></c:import>
+</div>
 
-	<!-- 메뉴 영역 -->
-	<div>
-		<c:import url="EmployeeMenu.jsp"></c:import>
-	</div>
+<label style="text-align: left;">직원 관리 > 직원 정보 입력</label>
+<hr />
+
+<div align="center">
 	
 	<!-- 콘텐츠 영역 -->
-	<div id="content">
-	
-		<h1> [직원 관리] > [직원 정보 입력] </h1>
-		<hr />
+	<div id="content" align="left">
 		
 		<form action="employeeinsert.action" method="post" id="employeeForm">
-			<table>
-				<tr>
-					<th>이름</th>
-					<td>
-						<input type="text" id="name" name="name" placeholder="이름"/>
-					</td>
-				</tr>
-				<tr>
-					<th>주민번호</th>
-					<td>
-						<input type="text" id="ssn1" name="ssn1" style="width: 100px;"/> -
-						<input type="text" id="ssn2" name="ssn2" style="width: 110px;"/>
-					</td>
-				</tr>
-				<tr>
-					<th>생년월일</th>
-					<td>
-						<input type="text" id="birthday" name="birthday" placeholder="생년월일"/>
-					</td>
-				</tr>
-				<tr>
-					<th>양/음력</th>
-					<td>
-						<input type="radio" value="0" id="lunar0" name="lunar" checked="checked"/>
-						<label for="lunar0">양력</label>
-						<input type="radio" value="1" id="lunar1" name="lunar"/>
-						<label for="lunar1">음력</label>
-					</td>
-				</tr>
-				<tr>
-					<th>전화번호</th>
-					<td>
-						<input type="tel" id="telephone" name="telephone" placeholder="ex) 010-1234-1234"/>
-					</td>
-				</tr>
-				<tr>
-					<th>지역</th>
-					<td>
-						<select name="regionId" id="regionId">
-							<!-- 
-							<option value="1">마포</option>
-							<option value="2">서초</option>
-							<option value="3">은평</option>
-							-->
-							<c:forEach var="region" items="${regionList }">
-								<option value="${region.regionId }">
-									${region.regionName }
-								</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>부서</th>
-					<td>
-						<select name="departmentId" id="departmentId">
-							<!-- 
-							<option value="1">독서부</option>
-							<option value="2">바둑부</option>
-							<option value="3">축구부</option>
-							 -->
-							 <c:forEach var="department" items="${departmentList }">
-							 	<option value="${department.departmentId }">
-							 		${department.departmentName }
-							 	</option>
-							 </c:forEach>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>직위</th>
-					<td>
-						<select name="positionId" id="positionId">
-							<!-- 
-							<option value="1">반장</option>
-							<option value="2">부반장</option>
-							<option value="3">팀장</option>
-							 -->
-							 <c:forEach var="position" items="${positionList }">
-							 	<option value="${position.positionId }">
-							 		${position.positionName }
-							 	</option>
-							 </c:forEach>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<th>기본급</th>
-					<td>
-						<input type="text" id="basicPay" name="basicPay"/>
-						(최소 기본급 
-						<span id="minBasicPay" style="color: red; font-weight: bold;">0</span>
-						원)
-					</td>
-				</tr>
-				<tr>
-					<th>수당</th>
-					<td>
-						<input type="text" id="extraPay" name="extraPay"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-					<br /><br />
-					
-						<button type="button" class="btn" id="submitBtn"
-						style="width: 40%;">직원 추가</button>
-						<button type="button" class="btn" id="listBtn"
-						style="width: 40%;"
-						onclick="location.href='employeeinsertform.action'">직원 리스트</button>
-						<br /><br />
-						
-						<span id="err" style="color: red; font-weight: bold; display: none;">
-						</span>
-					</td>
-				</tr>
+			<div class="form-group">
+			
+				<div class="input-group">
+					<div class="input-group-addon">이름</div>
+					<input type="text" id="name" name="name" class="form-control" placeholder="이름"/>
+				</div>
 				
-			</table>
+				<div class="input-group">
+					<div class="input-group-addon">주민번호</div>
+					<input type="text" id="ssn1" name="ssn1" class="form-control" />
+					<div class="input-group-addon"> - </div>
+					<input type="text" id="ssn2" name="ssn2" class="form-control" />
+				</div>
+					
+					
+				<div class="input-group">
+					<div class="input-group-addon">생년월일</div>
+					<input type="text" id="birthday" name="birthday" class="form-control" placeholder="생년월일"/>
+				</div>
+				
+				<div class="input-group">
+					<div class="input-group-addon">양 / 음력</div>
+					<div class="form-control">
+						<input type="radio" value="0" name="lunar" id="lunar0" checked="checked"/>
+						<label for="lunar0">양력</label>
+						<input type="radio" value="1" name="lunar" id="lunar1"/>
+						<label for="lunar1">음력</label>
+					</div>
+				</div>
+
+				<div class="input-group">
+					<div class="input-group-addon">전화번호</div>
+					<input type="tel" id="telephone" name="telephone" class="form-control" placeholder="ex) 010-1234-1234"/>
+				</div>
+
+				<div class="input-group">
+					<div class="input-group-addon">지역</div>
+					<select name="regionId" id="regionId" class="form-control">
+						<!-- 
+						<option value="1">마포</option>
+						<option value="2">서초</option>
+						<option value="3">은평</option>
+						-->
+						<c:forEach var="region" items="${regionList }">
+							<option value="${region.regionId }">
+								${region.regionName }
+							</option>
+						</c:forEach>
+					</select>
+				</div>
+				
+				<div class="input-group">
+					<div class="input-group-addon">부서</div>
+					<select name="departmentId" id="departmentId" class="form-control"> 
+						<!-- 
+						<option value="1">독서부</option>
+						<option value="2">바둑부</option>
+						<option value="3">축구부</option>
+						 -->
+						 <c:forEach var="department" items="${departmentList }">
+						 	<option value="${department.departmentId }">
+						 		${department.departmentName }
+						 	</option>
+						 </c:forEach>
+					</select>
+				</div>
+						
+				<div class="input-group">
+					<div class="input-group-addon">직위</div>
+					<select name="positionId" id="positionId" class="form-control">
+						<!-- 
+						<option value="1">반장</option>
+						<option value="2">부반장</option>
+						<option value="3">팀장</option>
+						 -->
+						 <c:forEach var="position" items="${positionList }">
+						 	<option value="${position.positionId }">
+						 		${position.positionName }
+						 	</option>
+						 </c:forEach>
+					</select>
+				</div>
+						
+				<div class="input-group">
+					<div class="input-group-addon">기본급</div>
+					<input type="text" id="basicPay" name="basicPay" class="form-control"/>
+					<div class="input-group-addon">원</div>
+					
+					<div class="input-group-addon">수당</div>
+					<input type="text" id="extraPay" name="extraPay" class="form-control" />
+					<div class="input-group-addon">원</div>
+				</div>
+					
+					
+				<div class="input-group" style="text-align: left;">
+					(최소 기본급
+					<span id="minBasicPay" style="color: red; font-weight: bold;">0</span>
+					원)
+				</div>
+				<br /><br />
+				
+				<div class="input-group">
+					<div class="btn-group" role="group" style="width: 100%;">
+						<button type="button" class="btn btn-primary btn-lg" id="submitBtn">직원 추가</button>
+						<button type="button" class="btn btn-default btn-lg" id="listBtn">직원 리스트</button>
+					</div>
+				</div>
+				<br /><br />
+						
+				<span id="err" style="color: red; font-weight: bold; display: none;">
+				</span>
+				
+			</div>
 		</form>
 		
-		
 	</div>	
+	
 	<!-- 회사 소개 및 어플리케이션 소개 영역 -->
 	<div id="footer">
 	</div>

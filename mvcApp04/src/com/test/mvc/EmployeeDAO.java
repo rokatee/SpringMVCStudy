@@ -391,5 +391,112 @@ public class EmployeeDAO implements IEmployeeDAO
 		
 		return result;
 	}
+
+	// 데이터 수정시 주민등록번호 뒷자리가 맞는지 확인
+	// 맞으면 변경, 틀리면 페이지 그대로 남기
+	@Override
+	public String pw(String employeeId, String ssn2) throws SQLException
+	{
+		String result = null;
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT CRYPTPACK.DECRYPT(SSN2, ?) AS SSN2"
+				  + " FROM EMPLOYEE"
+				  + " WHERE EMPLOYEEID = ?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, ssn2);
+		pstmt.setInt(2, Integer.parseInt(employeeId));
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			result = rs.getString("SSN2");
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
+	
+	// 일반 직원 로그인
+	@Override
+	public String login(String id, String pw) throws SQLException
+	{
+		String result = null;
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT NAME"
+				  + " FROM EMPLOYEE"
+				  + " WHERE EMPLOYEEID = ?"
+				    + " AND SSN2 = CRYPTPACK.ENCRYPT(?, ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setInt(1, Integer.parseInt(id));
+		pstmt.setString(2, pw);
+		pstmt.setString(3, pw);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			result = rs.getString("NAME");
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
+
+	// 관리자 직원 로그인
+	@Override
+	public String loginAdmin(String id, String pw) throws SQLException
+	{
+		String result = null;
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT NAME"
+				  + " FROM EMPLOYEE"
+				  + " WHERE EMPLOYEEID = ?"
+				    + " AND SSN2 = CRYPTPACK.ENCRYPT(?, ?)"
+				    + " AND GRADE = 0";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setInt(1, Integer.parseInt(id));
+		pstmt.setString(2, pw);
+		pstmt.setString(3, pw);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			result = rs.getString("NAME");
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

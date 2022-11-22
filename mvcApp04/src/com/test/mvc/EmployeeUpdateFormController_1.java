@@ -1,13 +1,17 @@
-/*=====================================================================
-	#.25 EmployeeUpdateController.java
+/*======================================================
+	EmployeeUpdateFormController.java
 	- 사용자 정의 컨트롤러 클래스
-	- 직원 데이터 수정 액션 수행 
-	  → employeelist.action 을 다시 요청할 수 있도록 안내 (redirect)
-	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비
+	- 직원 데이터 수정 폼 요청에 대한 액션 처리
+	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비 필요
 	  → 인터페이스 형태의 자료형을 속성으로 구성
-	  → setter 메소드 준비
-======================================================================*/
-
+	  → setter 메소드 구성
+=======================================================*/
+/*
+	insertformController에서는 employeeDAO 만 주입받아서 처리했었는데
+	updateFormController에서는 그 방법으로 말고, 만약 employeeDAO에 지역,직위,부서 리스트가 없었을 때
+	employeeDAO, regionDAO, positionDAO, departmentDAO 다 주입받아야 하는
+	방식으로 처리해보자
+*/
 package com.test.mvc;
 
 import java.util.ArrayList;
@@ -18,10 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-// ※ Spring 이 제공하는 『Controller』 인터페이스를 구현함으로서
-//    사용자 정의 컨트롤러 클래스를 구성한다
-
-public class EmployeeUpdateFormController implements Controller
+public class EmployeeUpdateFormController_1 implements Controller
 {
 	// check~!!!
 	// EmployeeInsertFormController 구성과는 다른 방식으로 처리~!!!
@@ -39,49 +40,49 @@ public class EmployeeUpdateFormController implements Controller
 	private IDepartmentDAO departmentDAO;
 	private IPositionDAO positionDAO;
 	
+	
+	// setter 구성
 	public void setEmployeeDAO(IEmployeeDAO employeeDAO)
 	{
 		this.employeeDAO = employeeDAO;
 	}
-
+	
 	public void setRegionDAO(IRegionDAO regionDAO)
 	{
 		this.regionDAO = regionDAO;
 	}
-
+	
 	public void setDepartmentDAO(IDepartmentDAO departmentDAO)
 	{
 		this.departmentDAO = departmentDAO;
 	}
-
+	
 	public void setPositionDAO(IPositionDAO positionDAO)
 	{
 		this.positionDAO = positionDAO;
 	}
-
-
-
-
-	// Controller 인터페이스의 handleRequest() 메소드 재정의
+	
+	
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		// 컨트롤러 내부 액션 처리 코드
+		// 액션 코드 
 		
 		ModelAndView mav = new ModelAndView();
 		
+		// 뷰한테 전달해줄 내용들을 미리 구성해두어야 한다.
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		ArrayList<Department> departmentList = new ArrayList<Department>();
 		ArrayList<Position> positionList = new ArrayList<Position>();
-
+		
 		try
 		{
 			// 위의 list 값들을 각각의 dao 한테서 얻어내야 한다.
 			// updateformController는 insertformController와는 달리
 			// 일단 먼저 data를 일단 수신해야한다.
-					
-			// 이전 페이지(EmployeeList.jsp)로부터 데이터 수신
-			//-- employeeId 
+			
+			// 데이터 수신 (EmployeeList.jsp 로 부터... employeeId 수신)
+			// [수정] 버튼 눌렀을 때 넘어오는 employeeId를 Controller 가 수신
 			String employeeId = request.getParameter("employeeId");
 			
 			Employee employee = new Employee();
@@ -93,24 +94,24 @@ public class EmployeeUpdateFormController implements Controller
 			departmentList = departmentDAO.list();
 			positionList = positionDAO.list();
 			
-			//이렇게 얻어낸 거 뷰한테 전달해야 한다.
+			// 이렇게 얻어낸 거 뷰한테 전달해야 한다.
 			mav.addObject("employee", employee);
 			mav.addObject("regionList", regionList);
 			mav.addObject("departmentList", departmentList);
 			mav.addObject("positionList", positionList);
 			
 			// 이 때 지정하게 되는 뷰
-			//mav.setViewName("/WEB-INF/view/EmployeeUpdateForm.jsp");
 			mav.setViewName("EmployeeUpdateForm");
 			
+			
 		} catch (Exception e)
-		{
+		{	
 			System.out.println(e.toString());
 		}
 		
 		
-		
 		return mav;
 	}
-	
+
+
 }
