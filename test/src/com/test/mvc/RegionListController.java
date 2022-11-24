@@ -23,7 +23,6 @@ public class RegionListController implements Controller
 		this.dao = dao;
 	}
 
-
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
@@ -31,18 +30,20 @@ public class RegionListController implements Controller
 		
 		ModelAndView mav = new ModelAndView();
 		
+		// 세션 처리과정 추가 -----------------------------------------------------------------
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("name")==null)
+		if (session.getAttribute("name") == null)		// 로그인이 되어있지 않은 상황
 		{
 			mav.setViewName("redirect:loginform.action");
 			return mav;
 		}
-		else if (session.getAttribute("admin")==null)
+		else if (session.getAttribute("admin") == null)	// 로그인은 되었지만 관리자가 아닌 상황
 		{
 			mav.setViewName("redirect:logout.action");
 			return mav;
 		}
+		// ----------------------------------------------------------------- 세션 처리과정 추가
 		
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		

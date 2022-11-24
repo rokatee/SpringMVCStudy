@@ -43,7 +43,7 @@
 		   <a href="emplist.action" role="button" class="menubtn btn btn-success btn-lg">직원 정보</a>
 		   <a href="reglist.action" role="button" class="menubtn btn btn-success btn-lg">지역 정보</a>
 		   <a href="deptlist.action" role="button" class="menubtn btn btn-success btn-lg">부서 정보</a>
-		   <a href="poslist.action" role="button" class="menubtn btn btn-success btn-lg">직위 정보</a>
+		   <a href="posilist.action" role="button" class="menubtn btn btn-success btn-lg">직위 정보</a>
 		   
 		   <a href="logout.action" class="menubtn btn btn-success btn-lg">로그 아웃</a>
 		</div>

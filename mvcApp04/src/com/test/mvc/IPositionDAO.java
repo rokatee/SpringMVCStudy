@@ -16,5 +16,4 @@ public interface IPositionDAO
 	public int add(Position position) throws SQLException;		// 입력
 	public int remove(String positionId) throws SQLException;	// 삭제
 	public int modify(Position position) throws SQLException;	// 수정
-	
 }

@@ -50,7 +50,7 @@ public interface IEmployeeDAO
 	public String loginAdmin(String id, String pw) throws SQLException;
 	//-- 관리자
 	
-	
+	public ArrayList<Employee> empList() throws SQLException;
 	
 	
 	

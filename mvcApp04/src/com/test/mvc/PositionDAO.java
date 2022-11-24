@@ -74,7 +74,7 @@ public class PositionDAO implements IPositionDAO
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setString(1, position.getPositionId());
+		pstmt.setString(1, position.getPositionName());
 		pstmt.setInt(2, position.getMinBasicPay());
 		
 		result = pstmt.executeUpdate();
@@ -133,7 +133,5 @@ public class PositionDAO implements IPositionDAO
 		
 		return result;
 	}
-	
-	
 	
 }

@@ -10,6 +10,12 @@
 <meta charset="UTF-8">
 <title>RegionList.jsp</title>
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
+<style type="text/css">
+	.customers
+	{
+		width: 40%;
+	}
+</style>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -70,23 +76,23 @@
 				<td>${region.regionName }</td>
 				<td id="delCheck" value="${region.delCheck }">${region.delCheck }</td>
 				<td>
-					<button type="button" class="btn updateBtn"
+					<button type="button" class="btn btn-primary updateBtn"
 					value="${region.regionId }">수정</button>
 				</td>
 				<td>
 				<%-- 
 				<c:choose>
 					<c:when test="${region.delCheck > 0}">
-						<button type="button" class="btn deleteBtn"
+						<button type="button" class="btn btn-primary deleteBtn"
 						value="${region.regionId }" disabled="disabled">삭제</button>
 					</c:when>
 					<c:otherwise>
-						<button type="button" class="btn deleteBtn"
+						<button type="button" class="btn btn-primary deleteBtn"
 						value="${region.regionId }">삭제</button>
 					</c:otherwise>
 				</c:choose>
 				--%>
-					<button type="button" class="btn deleteBtn"
+					<button type="button" class="btn btn-primary deleteBtn"
 						value="${region.regionId }" ${region.delCheck == 0 ? "" : "disabled" }>삭제</button>
 				</td>
 			</tr>

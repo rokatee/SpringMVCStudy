@@ -490,6 +490,47 @@ public class EmployeeDAO implements IEmployeeDAO
 		
 		return result;
 	}
+
+	// 일반 직원이 볼 수 있는 직원 리스트
+	@Override
+	public ArrayList<Employee> empList() throws SQLException
+	{
+		ArrayList<Employee> result = new ArrayList<Employee>();
+		
+		Connection conn = dataSource.getConnection();
+
+		String sql = "SELECT EMPLOYEEID, NAME, SSN, BIRTHDAY, LUNARNAME, TELEPHONE"
+						+ ", DEPARTMENTNAME, POSITIONNAME, REGIONNAME"
+				  + " FROM EMPLOYEEVIEW"
+				  + " ORDER BY EMPLOYEEID";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			Employee employee = new Employee();
+			
+			employee.setEmployeeId(rs.getString("EMPLOYEEID"));
+			employee.setName(rs.getString("NAME"));
+			employee.setSsn(rs.getString("SSN"));
+			employee.setBirthday(rs.getString("BIRTHDAY"));
+			employee.setLunarName(rs.getString("LUNARNAME"));
+			employee.setTelephone(rs.getString("TELEPHONE"));
+			employee.setDepartmentName(rs.getString("DEPARTMENTNAME"));
+			employee.setPositionName(rs.getString("POSITIONNAME"));
+			employee.setRegionName(rs.getString("REGIONNAME"));
+			
+			result.add(employee);
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
 	
 	
 	

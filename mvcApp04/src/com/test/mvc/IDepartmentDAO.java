@@ -16,5 +16,4 @@ public interface IDepartmentDAO
 	public int add(Department department) throws SQLException;		// 입력
 	public int remove(String departmentId) throws SQLException;		// 삭제
 	public int modify(Department department) throws SQLException;	// 수정
-
 }

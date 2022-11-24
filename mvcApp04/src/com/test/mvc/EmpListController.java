@@ -1,5 +1,5 @@
 /*===========================================================
-	EmpListController.java
+	#32. EmpListController.java
 	- 사용자 정의 컨트롤러 클래스
 	- 리스트 페이지 요청에 대한 액션 처리
 	  (일반 사원 전용)
@@ -39,19 +39,23 @@ public class EmpListController implements Controller
 		
 		ModelAndView mav = new ModelAndView();
 		
+		// 세션 처리 과정 추가 (로그인에 대한 확인 과정) ----------------------
 		HttpSession session = request.getSession();
 		
+		// 로그인이 되어있지 않은 상황
 		if (session.getAttribute("name") == null)
 		{
+			// 로그인이 되어있지 않은 상황에서의 처리
 			mav.setViewName("redirect:loginform.action");
 			return mav;
 		}
+		// ---------------------- 세션 처리 과정 추가 (로그인에 대한 확인 과정)
 		
 		ArrayList<Employee> employeeList = new ArrayList<Employee>();
 		
 		try
 		{
-			employeeList = dao.list();
+			employeeList = dao.empList();
 			
 			mav.addObject("employeeList",employeeList);
 			
