@@ -1,5 +1,5 @@
 /*=====================================================================
-	#.64 PositionUpdateFormController.java
+	#64. PositionUpdateFormController.java
 	- 사용자 정의 컨트롤러 클래스
 	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비
 	  → 인터페이스 형태의 자료형을 속성으로 구성

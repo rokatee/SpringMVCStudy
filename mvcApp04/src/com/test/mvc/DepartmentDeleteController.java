@@ -1,5 +1,5 @@
 /*==================================================================================================
-	#.52 DepartmentDeleteController.java
+	#52. DepartmentDeleteController.java
 	- 사용자 정의 컨트롤러 클래스
 	- 부서 데이터 삭제 액션 처리 → 처리 후 departmentlist.action 을 다시 요청할 수 있도록 안내
 	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비

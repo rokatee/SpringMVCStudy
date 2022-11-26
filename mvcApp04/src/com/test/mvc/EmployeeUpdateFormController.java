@@ -1,5 +1,5 @@
 /*=====================================================================
-	#.25 EmployeeUpdateFormController.java
+	#25. EmployeeUpdateFormController.java
 	- 사용자 정의 컨트롤러 클래스
 	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비
 	  → 인터페이스 형태의 자료형을 속성으로 구성
@@ -85,15 +85,16 @@ public class EmployeeUpdateFormController implements Controller
 		ArrayList<Department> departmentList = new ArrayList<Department>();
 		ArrayList<Position> positionList = new ArrayList<Position>();
 
+		// 위의 list 값들을 각각의 dao 한테서 얻어내야 한다.
+		// updateformController는 insertformController와는 달리
+		// 일단 먼저 data를 일단 수신해야한다.
+		
+		// 이전 페이지(EmployeeList.jsp)로부터 데이터 수신
+		//-- employeeId 
+		String employeeId = request.getParameter("employeeId");
+
 		try
 		{
-			// 위의 list 값들을 각각의 dao 한테서 얻어내야 한다.
-			// updateformController는 insertformController와는 달리
-			// 일단 먼저 data를 일단 수신해야한다.
-					
-			// 이전 페이지(EmployeeList.jsp)로부터 데이터 수신
-			//-- employeeId 
-			String employeeId = request.getParameter("employeeId");
 			
 			Employee employee = new Employee();
 			
@@ -118,8 +119,6 @@ public class EmployeeUpdateFormController implements Controller
 		{
 			System.out.println(e.toString());
 		}
-		
-		
 		
 		return mav;
 	}

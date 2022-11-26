@@ -363,6 +363,9 @@
 				</div>
 				<br />
 				
+				<span id="err" style="color: red; font-weight: bold; display: none;">
+				</span>
+				
 				<div class="input-group">
 					<div class="btn-group" role="group" style="width: 100%;">
 						<button type="button" class="btn btn-primary btn-lg" id="submitBtn">직원 수정</button>
@@ -370,9 +373,6 @@
 					</div>
 				</div>
 				<br />
-						
-				<span id="err" style="color: red; font-weight: bold; display: none;">
-				</span>
 				
 			</div>
 		</form>

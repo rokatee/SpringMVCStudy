@@ -314,6 +314,9 @@
 				</div>
 				<br /><br />
 				
+				<span id="err" style="color: red; font-weight: bold; display: none;">
+				</span>
+				
 				<div class="input-group">
 					<div class="btn-group" role="group" style="width: 100%;">
 						<button type="button" class="btn btn-primary btn-lg" id="submitBtn">직원 추가</button>
@@ -322,8 +325,6 @@
 				</div>
 				<br /><br />
 						
-				<span id="err" style="color: red; font-weight: bold; display: none;">
-				</span>
 				
 			</div>
 		</form>
