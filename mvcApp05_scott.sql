@@ -191,6 +191,10 @@ INSERT INTO MEMBERLIST(ID, PW, NAME, TEL, EMAIL) VALUES('batman', CRYPTPACK.ENCR
 ;
 --==>> 1 행 이(가) 삽입되었습니다.
 
+--○ 커밋
+COMMIT;
+--==>> 커밋 완료.
+
 --○ 비밀번호 일치 쿼리문 구성
 SELECT NAME, CRYPTPACK.DECRYPT(PW, '1234567') AS PW
 FROM MEMBERLIST
@@ -273,9 +277,48 @@ superman	김태민	010-1111-1111	ktm@test.com
 superwoman	정미경	010-2222-2222	mcw@test.com
 */
 
+--○ 학생 정보 조회 쿼리문 구성
+--   (특정 학생 데이터 삭제 가능여부 확인)
+SELECT L.ID AS ID
+     , L.PW AS PW
+     , L.NAME AS NAME
+     , L.TEL AS TEL
+     , L.EMAIL AS EMAIL
+     , L.GRADE AS GRADE
+     , (SELECT COUNT(*)
+        FROM MEMBERRECORD
+        WHERE ID = L.ID) AS DELCHECK
+FROM MEMBERLIST L;
+
+--○ 뷰 생성
+CREATE OR REPLACE VIEW MEMBERLISTVIEW
+AS
+SELECT L.ID AS ID
+     , L.PW AS PW
+     , L.NAME AS NAME
+     , L.TEL AS TEL
+     , L.EMAIL AS EMAIL
+     , L.GRADE AS GRADE
+     , (SELECT COUNT(*)
+        FROM MEMBERRECORD
+        WHERE ID = L.ID) AS DELCHECK
+FROM MEMBERLIST L;
+--==>> View MEMBERLISTVIEW이(가) 생성되었습니다.
+
+--○ 확인
+SELECT ID, PW, NAME, TEL, EMAIL, DELCHECK
+FROM MEMBERLISTVIEW;
+--> 한 줄 구성
+SELECT ID, PW, NAME, TEL, EMAIL, DELCHECK FROM MEMBERLISTVIEW
+;
+--==>>
+/*
+superman	=o???	김태민	010-1111-1111	ktm@test.com	1
+superwoman	??{	정미경	010-2222-2222	mcw@test.com	1
+batman	    =o???	민찬오	010-3333-4444	mcw@test1.com	1
+test	    ?Q??	test	010-1234-1234	test@test.com   0
+*/
+
 DESC MEMBERLIST;
 
 DESC MEMBERRECORD;
-
-
-drop view MEMBERLISTVIEW;

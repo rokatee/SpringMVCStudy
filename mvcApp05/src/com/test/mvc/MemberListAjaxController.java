@@ -1,12 +1,15 @@
-/*=====================================================================
-	#10. MemberListUpdateFormController.java
+/*=================================================
+	#26. MemberListAjaxController.java
 	- 사용자 정의 컨트롤러 클래스
+	- 학생 리스트의 아이디 중복검사 결과 반환 액션
 	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비
-	  → 인터페이스 형태의 자료형을 속성으로 구성
-	  → setter 메소드 준비
-======================================================================*/
+	  → 인터페이스 자료형 구성
+	  → setter 메소드 정의
+==================================================*/
 
 package com.test.mvc;
+
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +20,7 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 이 제공하는 『Controller』 인터페이스를 구현함으로서
 //    사용자 정의 컨트롤러 클래스를 구성한다
 
-public class MemberListUpdateFormController implements Controller
+public class MemberListAjaxController implements Controller
 {
 	private IMemberListDAO dao;
 	
@@ -33,19 +36,34 @@ public class MemberListUpdateFormController implements Controller
 		// 컨트롤러 내부 액션 처리 코드
 		ModelAndView mav = new ModelAndView();
 		
-		// 이전 페이지(MemberList.jsp)로부터 데이터 수신
+		ArrayList<MemberListDTO> memberListDTO = new ArrayList<MemberListDTO>();
+
+		// 이전 페이지(MemberListInsertForm.jsp)로부터 데이터 수신
+		//-- id
 		String id = request.getParameter("id");
+		
+		String idResult = "";
 		
 		try
 		{
-			MemberListDTO memberList = new MemberListDTO();
+			memberListDTO = dao.list();
 			
-			memberList = dao.searchId(id);
+			for (MemberListDTO memberList : memberListDTO)
+			{
+				if(memberList.getId().equals(id))
+				{
+					idResult = "이미 사용 중인 아이디 입니다.";
+					break;
+				}
+				else
+				{
+					idResult = "사용할 수 있는 아이디 입니다.";
+				}
+			}
 			
-			mav.addObject("memberList", memberList);
+			mav.addObject("idResult", idResult);
 			
-			mav.setViewName("MemberListUpdateForm");
-			
+			mav.setViewName("MemberListAjax");
 			
 		} catch (Exception e)
 		{

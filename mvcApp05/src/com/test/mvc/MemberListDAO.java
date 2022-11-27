@@ -34,8 +34,8 @@ public class MemberListDAO implements IMemberListDAO
 		
 		Connection conn = dataSource.getConnection();
 		
-		String sql = "SELECT ID, PW, NAME, TEL, EMAIL, GRADE"
-				  + " FROM MEMBERLIST"
+		String sql = "SELECT ID, PW, NAME, TEL, EMAIL, GRADE, DELCHECK"
+				  + " FROM MEMBERLISTVIEW"
 				  + " ORDER BY GRADE";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -52,6 +52,7 @@ public class MemberListDAO implements IMemberListDAO
 			dto.setTel(rs.getString("TEL"));
 			dto.setEmail(rs.getString("EMAIL"));
 			dto.setGrade(rs.getInt("GRADE"));
+			dto.setDelCheck(rs.getInt("DELCHECK"));
 			
 			result.add(dto);
 		}

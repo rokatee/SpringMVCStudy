@@ -1,6 +1,8 @@
 /*=====================================================================
-	#10. MemberListUpdateFormController.java
+	#25. MemberRecordUpdateController.java
 	- 사용자 정의 컨트롤러 클래스
+	- 성적 데이터 수정 액션 수행 
+	  → memberrecordlist.action 을 다시 요청할 수 있도록 안내 (redirect)
 	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비
 	  → 인터페이스 형태의 자료형을 속성으로 구성
 	  → setter 메소드 준비
@@ -17,11 +19,11 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 이 제공하는 『Controller』 인터페이스를 구현함으로서
 //    사용자 정의 컨트롤러 클래스를 구성한다
 
-public class MemberListUpdateFormController implements Controller
+public class MemberRecordUpdateController implements Controller
 {
-	private IMemberListDAO dao;
+	private IMemberRecordDAO dao;
 	
-	public void setDao(IMemberListDAO dao)
+	public void setDao(IMemberRecordDAO dao)
 	{
 		this.dao = dao;
 	}
@@ -31,26 +33,34 @@ public class MemberListUpdateFormController implements Controller
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		// 컨트롤러 내부 액션 처리 코드
+		
 		ModelAndView mav = new ModelAndView();
 		
-		// 이전 페이지(MemberList.jsp)로부터 데이터 수신
+		// 이전 페이지(MemberListUpdateForm.jsp)로부터 데이터 수신
+		//-- id, kor, eng, mat
 		String id = request.getParameter("id");
+		String kor = request.getParameter("kor");
+		String eng = request.getParameter("eng");
+		String mat = request.getParameter("mat");
 		
 		try
 		{
-			MemberListDTO memberList = new MemberListDTO();
+			MemberRecordDTO dto = new MemberRecordDTO();
 			
-			memberList = dao.searchId(id);
+			dto.setId(id);
+			dto.setKor(Integer.parseInt(kor));
+			dto.setEng(Integer.parseInt(eng));
+			dto.setMat(Integer.parseInt(mat));
 			
-			mav.addObject("memberList", memberList);
+			dao.modify(dto);
 			
-			mav.setViewName("MemberListUpdateForm");
-			
+			mav.setViewName("redirect:memberrecordlist.action");
 			
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
 		}
+		
 		
 		return mav;
 	}

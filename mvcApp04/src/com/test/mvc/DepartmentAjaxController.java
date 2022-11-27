@@ -53,8 +53,8 @@ public class DepartmentAjaxController implements Controller
 		}
 		// ----------------------------------------------------------------- 세션 처리과정 추가
 	
-		// 이전 페이지(RegionInsertForm.jsp) 로부터 데이터 수신
-		//-- regionName
+		// 이전 페이지(DepartmentInsertForm.jsp) 로부터 데이터 수신
+		//-- departmentName
 		String departmentName = request.getParameter("departmentName");
 		
 		ArrayList<Department> departmentList = new ArrayList<Department>();

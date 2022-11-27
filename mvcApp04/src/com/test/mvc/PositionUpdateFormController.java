@@ -56,17 +56,17 @@ public class PositionUpdateFormController implements Controller
 		
 		ArrayList<Position> positionList = new ArrayList<Position>();
 
+		// 위의 list 값들을 각각의 dao 한테서 얻어내야 한다.
+		// updateformController는 insertformController와는 달리
+		// 일단 먼저 data를 일단 수신해야한다.
+		
+		// 이전 페이지(PositionList.jsp)로부터 데이터 수신
+		//-- positionId 
+		String positionId = request.getParameter("positionId");
+		String positionName = request.getParameter("positionName");
+
 		try
 		{
-			// 위의 list 값들을 각각의 dao 한테서 얻어내야 한다.
-			// updateformController는 insertformController와는 달리
-			// 일단 먼저 data를 일단 수신해야한다.
-					
-			// 이전 페이지(PositionList.jsp)로부터 데이터 수신
-			//-- positionId 
-			String positionId = request.getParameter("positionId");
-			String positionName = request.getParameter("positionName");
-			
 			positionList = dao.list();
 			
 			mav.addObject("positionId", positionId);

@@ -9,7 +9,7 @@ public class MemberListDTO
 {
 	// 주요 속성 구성
 	private String id, pw, name, tel, email;
-	private int grade;
+	private int grade, delCheck;
 
 	// getter / setter
 	public String getId()
@@ -59,6 +59,14 @@ public class MemberListDTO
 	public void setGrade(int grade)
 	{
 		this.grade = grade;
+	}
+	public int getDelCheck()
+	{
+		return delCheck;
+	}
+	public void setDelCheck(int delCheck)
+	{
+		this.delCheck = delCheck;
 	}
 
 	

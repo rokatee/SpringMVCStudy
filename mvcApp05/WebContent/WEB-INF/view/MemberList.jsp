@@ -29,7 +29,11 @@
 		{
 			//alert("삭제버튼클릭");
 			//alert($(this).val());
-			$(location).attr("href", "memberlistdelete.action?id=" + $(this).val());
+			// 입력된 성적 데이터가 있어 삭제 불가능
+			if (confirm("현재 선택한 데이터를 정말 삭제하시겠습니까?"))
+			{
+				$(location).attr("href", "memberlistdelete.action?id=" + $(this).val());
+			}
 		});
 	});
 	
@@ -105,7 +109,7 @@
 					</td>  
 					<td>
 						<button type="button" class="btn btn-primary control deleteBtn"
-						value="${member.id }">삭제</button>
+						value="${member.id }" ${member.delCheck == 0 ? "" : "disabled" }>삭제</button>
 					</td> 
 				</tr>
 			</c:forEach>

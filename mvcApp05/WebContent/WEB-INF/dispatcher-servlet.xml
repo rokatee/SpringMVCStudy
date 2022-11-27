@@ -40,10 +40,13 @@
 	<!-- DataSource 등록 → SimpleDriverDataSource -->
 	<bean id="myDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@211.238.142.55:1521:xe"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+<!-- 		<property name="url" value="jdbc:oracle:thin:@211.238.142.55:1521:xe"></property> -->
 		<property name="username" value="scott"></property>
 		<property name="password" value="tiger"></property>
 	</bean>
+	
+	
 	
 	<!-- DAO 등록 -->
 	<bean id="memberListDAO" class="com.test.mvc.MemberListDAO">
@@ -56,7 +59,21 @@
 	
 	
 	
-	<!-- 학생 관련 Controller 동록 -->
+	<!-- Ajax 관련 Controller 등록 -->
+	<!-- 학생 추가할 때, 아이디 중복 -->
+	<bean name="/memberlistinsertajax.action" class="com.test.mvc.MemberListAjaxController">
+		<property name="dao" ref="memberListDAO"></property>
+	</bean>
+	
+	<!-- 성적 추가할 때, 아이디 중복 및 성적 등록 여부 -->
+	<bean name="/memberrecordinsertajax.action" class="com.test.mvc.MemberRecordInsertAjaxController">
+		<property name="listDAO" ref="memberListDAO"></property>
+		<property name="recordDAO" ref="memberRecordDAO"></property>
+	</bean>
+	
+	
+	
+	<!-- 학생 관련 Controller 등록 -->
 	<!-- 학생 리스트 Controller 등록 -->
 	<bean name="/memberlist.action" class="com.test.mvc.MemberListController">
 		<property name="dao" ref="memberListDAO"></property>
@@ -90,48 +107,35 @@
 	<!-- 성적 관련 Controller 동록 -->
 	<!-- 성적 리스트 Controller 등록 -->
 	<bean name="/memberrecordlist.action" class="com.test.mvc.MemberRecordListController">
+		<property name="dao" ref="memberRecordDAO"></property>
 	</bean>
 	
 	<!-- 성적 데이터 입력 폼 Controller 등록 -->
-	<!-- 
-	<bean name="/memberrecordinsertform.action" class="com.test.mvc.MemberListInsertFormController"></bean>
-	 -->
+	<bean name="/memberrecordinsertform.action" class="com.test.mvc.MemberRecordInsertFormController">
+		<property name="listDAO" ref="memberListDAO"></property>
+		<!-- <property name="recordDAO" ref="memberRecordDAO"></property> -->
+	</bean>
 	 
 	<!-- 성적 데이터 입력 액션 Controller 등록 -->
-	<!-- 
-	<bean name="/memberrecordinsert.action" class="com.test.mvc.MemberListInsertController">
+	<bean name="/memberrecordinsert.action" class="com.test.mvc.MemberRecordInsertController">
 		<property name="dao" ref="memberRecordDAO"></property>
 	</bean>
-	 -->
 	 
 	<!-- 성적 데이터 삭제 액션 Controller 등록 -->
-	<!-- 
 	<bean name="/memberrecorddelete.action" class="com.test.mvc.MemberRecordDeleteController">
 		<property name="dao" ref="memberRecordDAO"></property>
 	</bean>
-	 -->
 	
 	<!-- 성적 데이터 수정 폼 Controller 등록 -->
-	<!-- 
 	<bean name="/memberrecordupdateform.action" class="com.test.mvc.MemberRecordUpdateFormController">
-		<property name="dao" ref="memberRecordDAO"></property>
+		<property name="recordDAO" ref="memberRecordDAO"></property>
 	</bean>
-	 -->
 	 
 	<!-- 성적 데이터 수정 액션 Controller 등록 -->
-	<!-- 
 	<bean name="/memberrecordupdate.action" class="com.test.mvc.MemberRecordUpdateController">
 		<property name="dao" ref="memberRecordDAO"></property>
 	</bean>
-	 -->
 	
 	
-	
-	<!-- 
-	mvcApp04 랑 다르게 05는
-	성적 입력 때 property 로 memberRecordDAO 가 필요할 것!
-	 >> 하지만 지금 방식으론(학생 수정때 성적 입력 가능)
-	    학생 데이터 입력 때  
-	-->
 	
 </beans>

@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MemberList.jsp</title>
+<title>MemberRecordList.jsp</title>
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
@@ -29,7 +29,10 @@
 		{
 			//alert("삭제버튼클릭");
 			//alert($(this).val());
-			$(location).attr("href", "memberrecorddelete.action?id=" + $(this).val());
+			if (confirm("현재 선택한 데이터를 정말 삭제하시겠습니까?"))
+			{
+				$(location).attr("href", "memberrecorddelete.action?id=" + $(this).val());
+			}
 		});
 	});
 	
@@ -38,7 +41,7 @@
 </head>
 <body>
 <!---------------------------------------------------------------------------------
-	#16. MemberRecordList.jsp
+	#17. MemberRecordList.jsp
 	- 성적 리스트 출력 페이지
 	- 관리자가 접근하는 성적 데이터 출력 페이지
 	  (일반 학생이 접근하는 성적 데이터 출력 페이지는 MemRecList.jsp 로 구성 예정)
@@ -64,7 +67,7 @@
 		<br /><br />
 		
 		<!---------------------------------------------
-		SCOREID KOR ENG MAT ID 
+			SCOREID KOR ENG MAT ID 
 		---------------------------------------------->
 		
 		<table id="customers" class="table">

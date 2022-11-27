@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>MemberListInsertForm.jsp</title>
+
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/jquery-ui.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -36,6 +37,31 @@
 	
 	$(function()
 	{
+		$("#err").css("display", "none");
+		
+		$("#id").on("keyup", function()
+		{
+			var search = $(this).val();
+			
+			//alert(search);
+			
+			if(search.replace(" ","")=="")
+			{
+				$("#err").css("display", "none");
+				return;
+			}
+			
+			// 입력 내용이 영어일 경우에만 전송할 수 있도록 처리
+			var checkEng = /^[a-zA-Z]{1,}$/;
+			
+			if(!checkEng.test(search))
+				return;
+			
+			// ajax 처리
+			ajaxRequest();
+			
+		});
+		
 		$("#submitBtn").click(function()
 		{
 			//alert("버튼클릭확인");
@@ -50,19 +76,30 @@
 				return;
 			}
 			
+			// 2. 입력항목 유형 확인 → 영어인지
+			var checkEng = /^[a-zA-Z]{1,}$/;
+			
+			if ( !checkEng.test($("#id").val() ) )
+			{
+				$("#err").html("영어만 입력 가능합니다.");				
+				$("#err").css("display", "inline");				
+				return;			
+			}		
+			
+			// 3. 중복확인 유효성 검사 → 중복된 값임을 확인했는데 추가하는지
+			if ( $("#err").html().trim() == "이미 사용 중인 아이디 입니다."
+					|| $("#err").html().trim() == "사용 중인 아이디는 등록할 수 없습니다.")
+			{
+				$("#err").html("사용 중인 아이디는 등록할 수 없습니다.");				
+				$("#err").css("display", "inline");				
+				return;			
+			}
 			
 			
-			// 아이디 중복검사 ajax 처리-----------------------------
-			// 사용 중인 아이디가 있습니다
-			//
-			//
-			//
-			//----------------------------- 아이디 중복검사 ajax 처리
-			
-			
-			
+			// 위의 모든 확인 과정 통과 했으면
 			// 폼 submit 액션 처리 수행
 			$("#memberForm").submit();
+			
 		});
 		
 		$("#listBtn").click(function()
@@ -70,7 +107,17 @@
 			//alert("버튼클릭확인");
 			$(location).attr("href", "memberlist.action");
 		});
+		
 	});
+	
+	function ajaxRequest()
+	{
+		$.post("memberlistinsertajax.action", {id: $("#id").val()}, function(data)
+		{
+			$("#err").html(data).css("display", "inline");
+		});
+	}
+		
 
 </script>
 </head>
@@ -93,7 +140,7 @@
 	<!-- 콘텐츠 영역 -->
 	<div id="content" align="left">
 		
-		<form action="memberinsert.action" method="post" id="memberForm">
+		<form action="memberlistinsert.action" method="post" id="memberForm">
 			<div class="form-group">
 				
 				<div class="input-group">

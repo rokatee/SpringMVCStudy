@@ -1,10 +1,11 @@
-/*=====================================================================
-	#10. MemberListUpdateFormController.java
+/*==================================================================================================
+	#22. MemberRecordDeleteController.java
 	- 사용자 정의 컨트롤러 클래스
+	- 성적 데이터 삭제 액션 처리 → 처리 후 memberrecordlist.action 을 다시 요청할 수 있도록 안내
 	- DAO 객체에 대한 의존성 주입(DI)을 위한 준비
 	  → 인터페이스 형태의 자료형을 속성으로 구성
-	  → setter 메소드 준비
-======================================================================*/
+	  → setter 메소드 구성
+==================================================================================================*/
 
 package com.test.mvc;
 
@@ -17,11 +18,11 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 이 제공하는 『Controller』 인터페이스를 구현함으로서
 //    사용자 정의 컨트롤러 클래스를 구성한다
 
-public class MemberListUpdateFormController implements Controller
+public class MemberRecordDeleteController implements Controller
 {
-	private IMemberListDAO dao;
-	
-	public void setDao(IMemberListDAO dao)
+	private IMemberRecordDAO dao;
+
+	public void setDao(IMemberRecordDAO dao)
 	{
 		this.dao = dao;
 	}
@@ -31,21 +32,18 @@ public class MemberListUpdateFormController implements Controller
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		// 컨트롤러 내부 액션 처리 코드
+		
 		ModelAndView mav = new ModelAndView();
 		
-		// 이전 페이지(MemberList.jsp)로부터 데이터 수신
+		// 이전 페이지(MemberRecordList.jsp)로부터 데이터 수신
+		//-- id
 		String id = request.getParameter("id");
 		
 		try
 		{
-			MemberListDTO memberList = new MemberListDTO();
+			dao.remove(id);
 			
-			memberList = dao.searchId(id);
-			
-			mav.addObject("memberList", memberList);
-			
-			mav.setViewName("MemberListUpdateForm");
-			
+			mav.setViewName("redirect:memberrecordlist.action");
 			
 		} catch (Exception e)
 		{
