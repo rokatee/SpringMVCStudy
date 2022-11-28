@@ -172,17 +172,16 @@
 			<div class="form-group">
 				
 				<div class="input-group">
-					<div class="input-group-addon">목록 (아이디 : 이름)</div>
+					
+					<div class="input-group-addon">성적 입력 가능한 아이디 / 이름</div>
 					<select name="memberList" id="memberList">
-						<%-- <c:forEach var="memberRecord" items="${memberRecordDTO }"> --%>
-							<%-- <c:choose> --%>
-								<%-- <c:when test="${memberRecord.scoreId ==	null }"> --%>
-										<c:forEach var="memberList" items="${memberListDTO }">
-											<option value="${memberList.id }">${memberList.id } : ${memberList.name }</option>
-										</c:forEach>
-							<%-- 	</c:when> --%>
-							<%-- </c:choose> --%>
-						<%-- </c:forEach> --%>
+						<c:forEach var="memberList" items="${memberListDTO }">
+							<c:choose>
+								<c:when test="${memberList.delCheck ==	0 }">
+									<option value="${memberList.id }" >${memberList.id } / ${memberList.name }</option>
+								</c:when>
+							</c:choose>
+						</c:forEach>
 					</select>
 				</div>
 				<div class="input-group">

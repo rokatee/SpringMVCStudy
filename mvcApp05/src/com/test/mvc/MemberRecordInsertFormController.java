@@ -20,18 +20,12 @@ import org.springframework.web.servlet.mvc.Controller;
 public class MemberRecordInsertFormController implements Controller
 {
 	private IMemberListDAO listDAO;
-	//private IMemberRecordDAO recordDAO;
 	
 	public void setListDAO(IMemberListDAO listDAO)
 	{
 		this.listDAO = listDAO;
 	}
 	
-//	public void setRecordDAO(IMemberRecordDAO recordDAO)
-//	{
-//		this.recordDAO = recordDAO;
-//	}
-
 	// Controller 인터페이스의 handleRequest() 메소드 재정의
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -55,27 +49,19 @@ public class MemberRecordInsertFormController implements Controller
 		// --------------------------------------------------- 세션 처리과정 추가
 		
 		ArrayList<MemberListDTO> memberListDTO = new ArrayList<MemberListDTO>();
-		//ArrayList<MemberRecordDTO> memberRecordDTO = new ArrayList<MemberRecordDTO>();
 		
 		// 이전 페이지(MemberList.jsp)로부터 데이터 수신
 		//-- id, name
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
 		
-		// 이전 페이지(MemberRecordList.jsp)로부터 데이터 수신
-		//-- scoreId
-		//String scoreId = request.getParameter("scoreId");
-		
 		try
 		{
 			memberListDTO = listDAO.list();
-			//memberRecordDTO = recordDAO.list();
 			
 			mav.addObject("id", id);
 			mav.addObject("name", name);
-			//mav.addObject("scoreIda", scoreId);
 			mav.addObject("memberListDTO", memberListDTO);
-			//mav.addObject("memberRecordDTO", memberRecordDTO);
 			
 			mav.setViewName("MemberRecordInsertForm");
 			

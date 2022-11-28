@@ -123,7 +123,6 @@
 	<!-- 성적 데이터 입력 폼 Controller 등록 -->
 	<bean name="/memberrecordinsertform.action" class="com.test.mvc.MemberRecordInsertFormController">
 		<property name="listDAO" ref="memberListDAO"></property>
-		<!-- <property name="recordDAO" ref="memberRecordDAO"></property> -->
 	</bean>
 	 
 	<!-- 성적 데이터 입력 액션 Controller 등록 -->

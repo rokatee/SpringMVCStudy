@@ -60,7 +60,7 @@
 		
 		<div>
 			<form action="">
-				<input type="button" value="성적 입력" class="btn btn-primary control"
+ 				<input type="button" value="성적 입력" class="btn btn-primary control"
 				onclick="location.href='memberrecordinsertform.action'"/>
 			</form>
 		</div>
