@@ -35,7 +35,6 @@ public class LoginController implements Controller
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		// 컨트롤러 내부 액션 처리 코드
-		
 		ModelAndView mav = new ModelAndView();
 		
 		// 이전 페이지(LoginForm.jsp)로부터 데이터 수신

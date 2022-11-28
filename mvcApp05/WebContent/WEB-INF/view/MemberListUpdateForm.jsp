@@ -51,7 +51,9 @@
 			}
 			
 			// 폼 submit 액션 처리 수행
-			$("#memberForm").submit();
+			//$("#memberForm").submit();
+			ajaxRequest();
+			
 		});
 		
 		$("#listBtn").click(function()
@@ -60,6 +62,27 @@
 			$(location).attr("href", "memberlist.action");
 		});
 	});
+	
+	function ajaxRequest()
+	{
+		$.ajaxSetup({async: false});
+		$.post("ajaxpw.action"
+				, {
+					id: $("#id").val(), pw: $("#pw").val()
+				}, function(data)
+				{
+					if ($("#pw").val() != $.trim(data))
+					{
+						$("#err").html("비밀번호가 일치하지 않습니다.");
+						$("#err").css("display", "inline");
+						return;
+					}
+					else
+					{
+						$("#memberForm").submit();
+					}
+			});
+	}
 
 </script>
 </head>

@@ -31,6 +31,7 @@
 	</bean>
 	
 	
+	
 	<!-- ※ 사용자 정의 Controller 객체 등록 및 요청 URL 매핑 주소 등록 -->
 	<!--    - 『name=""』 속성에 매핑 주소를 등록한다. -->
 	<!--      이 과정에서 Front Controller 가 갖고 있는 확장자의 형태로 구성한다. -->
@@ -40,8 +41,8 @@
 	<!-- DataSource 등록 → SimpleDriverDataSource -->
 	<bean id="myDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
-<!-- 		<property name="url" value="jdbc:oracle:thin:@211.238.142.55:1521:xe"></property> -->
+		<!-- <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property> -->
+		<property name="url" value="jdbc:oracle:thin:@211.238.142.55:1521:xe"></property>
 		<property name="username" value="scott"></property>
 		<property name="password" value="tiger"></property>
 	</bean>
@@ -67,8 +68,12 @@
 	
 	<!-- 성적 추가할 때, 아이디 중복 및 성적 등록 여부 -->
 	<bean name="/memberrecordinsertajax.action" class="com.test.mvc.MemberRecordInsertAjaxController">
-		<property name="listDAO" ref="memberListDAO"></property>
-		<property name="recordDAO" ref="memberRecordDAO"></property>
+		<property name="dao" ref="memberListDAO"></property>
+	</bean>
+	
+	<!-- 비밀번호 일치 확인 -->
+	<bean name="/ajaxpw.action" class="com.test.mvc.AjaxPwController">
+		<property name="dao" ref="memberListDAO"></property>
 	</bean>
 	
 	
@@ -102,6 +107,11 @@
 		<property name="dao" ref="memberListDAO"></property>
 	</bean>
 	
+	<!-- 일반 학생 리스트 Controller 등록 -->
+	<bean name="/memlist.action" class="com.test.mvc.MemListController">
+		<property name="dao" ref="memberListDAO"></property>
+	</bean>
+	
 	
 	
 	<!-- 성적 관련 Controller 동록 -->
@@ -128,7 +138,7 @@
 	
 	<!-- 성적 데이터 수정 폼 Controller 등록 -->
 	<bean name="/memberrecordupdateform.action" class="com.test.mvc.MemberRecordUpdateFormController">
-		<property name="recordDAO" ref="memberRecordDAO"></property>
+		<property name="dao" ref="memberRecordDAO"></property>
 	</bean>
 	 
 	<!-- 성적 데이터 수정 액션 Controller 등록 -->
@@ -136,6 +146,24 @@
 		<property name="dao" ref="memberRecordDAO"></property>
 	</bean>
 	
+	<!-- 일반 학생 성적 리스트 Controller 등록 -->
+	<bean name="/memreclist.action" class="com.test.mvc.MemRecListController">
+		<property name="dao" ref="memberRecordDAO"></property>
+	</bean>
 	
+
+	
+	<!-- 로그인 / 로그아웃 관련 Controller 등록 -->
+	<!-- Login 폼 페이지 요청 Controller 등록 -->
+	<bean name="/loginform.action" class="com.test.mvc.LoginFormController"></bean>
+	
+	<!-- Login 데이터 액션 Controller 등록 -->
+	<bean name="/login.action" class="com.test.mvc.LoginController">
+		<property name="listDAO" ref="memberListDAO"></property>
+		<property name="recordDAO" ref="memberRecordDAO"></property>
+	</bean>
+	
+	<!-- Logout 폼 페이지 요청 Controller 등록 -->
+	<bean name="/logout.action" class="com.test.mvc.LogoutController"></bean>
 	
 </beans>

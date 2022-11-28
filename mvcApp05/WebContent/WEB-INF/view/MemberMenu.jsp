@@ -25,15 +25,7 @@
     - 메인 메뉴 페이지 구성
     - 로그아웃 기능(버튼) 추가 구성
 ---------------------------------------------------->
-<div class="btn-group" role="group">
-   <a href="memberlist.action" role="button" class="menubtn btn btn-success btn-lg">학생 관리</a>
-   <a href="memberrecordlist.action" role="button" class="menubtn btn btn-success btn-lg">성적 관리</a>
-   
-   <a href="logout.action" class="menubtn btn btn-success btn-lg">로그 아웃</a>
-</div>
-
 <%-- <span>${sessionScope.admin==null ? "normal" : "admin" }</span> --%>
-<%-- 
 <c:choose>
 	<c:when test = "${sessionScope.admin != null }">
 		<div class="btn-group" role="group">
@@ -47,10 +39,10 @@
 		<div class="btn-group" role="group">
 		   <a href="memlist.action" role="button" class="menubtn btn btn-success btn-lg">학생 정보</a>
 		   <a href="memreclist.action" role="button" class="menubtn btn btn-success btn-lg">성적 정보</a>
+		   
 		   <a href="logout.action" class="menubtn btn btn-success btn-lg">로그 아웃</a>
 		</div>
 	</c:otherwise>
 </c:choose>
---%>
 </body>
 </html>

@@ -24,4 +24,8 @@ public interface IMemberRecordDAO
 	
 	// 아이디 검색
 	public MemberRecordDTO searchId(String id) throws SQLException;
+	
+	// 일반 학생이 볼 수 있는 성적 리스트
+	public ArrayList<MemberRecordDTO> memRecList() throws SQLException;
+	
 }

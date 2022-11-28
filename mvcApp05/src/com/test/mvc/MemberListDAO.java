@@ -181,7 +181,140 @@ public class MemberListDAO implements IMemberListDAO
 		
 		return result;
 	}
-	
+
+	// 학생 데이터 수정시 비밀번호 맞는지 확인
+	// 맞으면 변경, 틀리면 페이지 그대로 남기
+	@Override
+	public String pw(String id, String pw) throws SQLException
+	{
+		String result = null;
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT CRYPTPACK.DECRYPT(PW, ?) AS PW"
+				  + " FROM MEMBERLIST"
+				  + " WHERE ID = ?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, pw);
+		pstmt.setString(2, id);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			result = rs.getString("PW");
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
+
+	// 관리자 로그인
+	@Override
+	public String loginAdmin(String id, String pw) throws SQLException
+	{
+		String result = null;
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT NAME"
+				  + " FROM MEMBERLIST"
+				  + " WHERE ID = ?"
+				     + "AND PW = CRYPTPACK.ENCRYPT(?, ?)"
+				    + " AND GRADE = 0";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, id);
+		pstmt.setString(2, pw);
+		pstmt.setString(3, pw);
+
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			result = rs.getString("NAME");
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
+
+	// 일반 학생 로그인
+	@Override
+	public String login(String id, String pw) throws SQLException
+	{
+		String result = null;
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT NAME"
+				  + " FROM MEMBERLIST"
+				  + " WHERE ID = ?"
+				     + "AND PW = CRYPTPACK.ENCRYPT(?, ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, id);
+		pstmt.setString(2, pw);
+		pstmt.setString(3, pw);
+
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			result = rs.getString("NAME");
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
+
+	// 일반 학생이 볼 수 있는 학생 리스트
+	// 여기에 성적도 포함? 하려면 DTO부터 설계 다르게 해야 함
+	@Override
+	public ArrayList<MemberListDTO> memList() throws SQLException
+	{
+		ArrayList<MemberListDTO> result = new ArrayList<MemberListDTO>();
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT ID, NAME, TEL, EMAIL"
+				  + " FROM MEMBERLIST";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			MemberListDTO listDTO = new MemberListDTO();
+			
+			listDTO.setId(rs.getString("ID"));
+			listDTO.setId(rs.getString("NAME"));
+			listDTO.setTel(rs.getString("TEL"));
+			listDTO.setEmail(rs.getString("EMAIL"));
+			
+			result.add(listDTO);
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
 	
 	
 }

@@ -10,6 +10,7 @@ package com.test.mvc;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -19,11 +20,11 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class MemberRecordUpdateFormController implements Controller
 {
-	private IMemberRecordDAO recordDAO;
-	
-	public void setRecordDAO(IMemberRecordDAO recordDAO)
+	private IMemberRecordDAO dao;
+
+	public void setDao(IMemberRecordDAO dao)
 	{
-		this.recordDAO = recordDAO;
+		this.dao = dao;
 	}
 
 	// Controller 인터페이스의 handleRequest() 메소드 재정의
@@ -33,6 +34,21 @@ public class MemberRecordUpdateFormController implements Controller
 		// 컨트롤러 내부 액션 처리 코드
 		ModelAndView mav = new ModelAndView();
 		
+		// 세션 처리과정 추가 ---------------------------------------------------
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("name") == null)
+		{
+			mav.setViewName("redirect:loginform.action");
+			return mav;
+		}
+		else if (session.getAttribute("admin") == null)
+		{
+			mav.setViewName("redirect:logout.action");
+			return mav;
+		}
+		// --------------------------------------------------- 세션 처리과정 추가
+		
 		// 이전 페이지(MemberRecordList.jsp)로부터 데이터 수신
 		//-- id
 		String id = request.getParameter("id");
@@ -41,7 +57,7 @@ public class MemberRecordUpdateFormController implements Controller
 		{ 
 			MemberRecordDTO recordDTO = new MemberRecordDTO();
 			
-			recordDTO = recordDAO.searchId(id);
+			recordDTO = dao.searchId(id);
 			
 			mav.addObject("recordDTO", recordDTO);
 			

@@ -176,6 +176,41 @@ public class MemberRecordDAO implements IMemberRecordDAO
 		
 		return result;
 	}
+
+	// 일반 학생이 볼 수 있는 성적 리스트
+	@Override
+	public ArrayList<MemberRecordDTO> memRecList() throws SQLException
+	{
+		ArrayList<MemberRecordDTO> result = new ArrayList<MemberRecordDTO>();
+		
+		Connection conn = dataSource.getConnection();
+		
+		String sql = "SELECT ID, KOR, ENG, MAT FROM MEMBERRECORD";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			MemberRecordDTO recordDTO = new MemberRecordDTO();
+			
+			recordDTO.setId(rs.getString("ID"));
+			recordDTO.setKor(rs.getInt("KOR"));
+			recordDTO.setEng(rs.getInt("ENG"));
+			recordDTO.setMat(rs.getInt("MAT"));
+			
+			result.add(recordDTO);
+		}
+		
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return result;
+	}
+	
+	
 	
 	
 	

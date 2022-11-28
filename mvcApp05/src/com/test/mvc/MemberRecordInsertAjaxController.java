@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -23,17 +24,11 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class MemberRecordInsertAjaxController implements Controller
 {
-	private IMemberListDAO listDAO;
-	private IMemberRecordDAO recordDAO;
-	
-	public void setListDAO(IMemberListDAO listDAO)
-	{
-		this.listDAO = listDAO;
-	}
+	private IMemberListDAO dao;
 
-	public void setRecordDAO(IMemberRecordDAO recordDAO)
+	public void setDao(IMemberListDAO dao)
 	{
-		this.recordDAO = recordDAO;
+		this.dao = dao;
 	}
 
 	// Controller 인터페이스의 handleRequest() 메소드 재정의
@@ -43,69 +38,55 @@ public class MemberRecordInsertAjaxController implements Controller
 		// 컨트롤러 내부 액션 처리 코드
 		ModelAndView mav = new ModelAndView();
 
+		// 세션 처리과정 추가 ---------------------------------------------------
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("name") == null)
+		{
+			mav.setViewName("redirect:loginform.action");
+			return mav;
+		}
+		else if (session.getAttribute("admin") == null)
+		{
+			mav.setViewName("redirect:logout.action");
+			return mav;
+		}
+		// --------------------------------------------------- 세션 처리과정 추가
+		
 		// 이전 페이지(MemberRecordListForm.jsp)로부터 데이터 수신
 		//-- id
 		String id = request.getParameter("id");
 
 		ArrayList<MemberListDTO> memberListDTO = new ArrayList<MemberListDTO>();
-		ArrayList<MemberRecordDTO> memberRecordDTO = new ArrayList<MemberRecordDTO>();
 		
-		String idResult = "";
-		String delCheckResult = "";
+		String result = "";
 		
 		try
 		{
-			memberListDTO = listDAO.list();
-			memberRecordDTO = recordDAO.list();
-			/*
-			for (MemberRecordDTO memberRecord : memberRecordDTO)
-			{
-				if(memberRecord.getId().equals(id))
-				{
-					for (MemberListDTO memberList : memberListDTO)
-					{
-						if(memberList.getDelCheck() > 0 )
-						{
-							delCheckResult = "이미 성적이 등록된 아이디 입니다.";
-							break;
-						}
-						else
-						{
-							delCheckResult = "성적 등록이 가능한 아이디 입니다.";
-						}
-					}
-					//idResult = "존재하는 아이디 입니다.";
-					break;
-				}
-				else
-				{
-					idResult = "존재하지 않는 아이디 입니다.";
-				}
-			}
-			*/
+			memberListDTO = dao.list();
+
 			for (MemberListDTO memberList : memberListDTO)
 			{
 				if(memberList.getId().equals(id))
 				{
-					idResult = "존재하는 아이디 이며, ";
 
 					if(memberList.getDelCheck() == 0 )
 					{
-						delCheckResult = "성적 등록이 가능한 아이디 입니다.";
+						result = "성적 등록이 가능한 아이디 입니다.";
 					}
 					else
 					{
-						delCheckResult = "이미 성적이 등록된 아이디 입니다.";
+						result = "이미 성적이 등록된 아이디 입니다.";
 					}
 					break;
 				}
 				else
 				{
-					idResult = "존재하지 않는 아이디 입니다.";
+					result = "존재하지 않는 아이디 입니다.";
 				}
 			}
-			mav.addObject("delCheckResult", delCheckResult);
-			mav.addObject("idResult", idResult);
+			
+			mav.addObject("result", result);
 			
 			mav.setViewName("MemberRecordInsertAjax");
 			

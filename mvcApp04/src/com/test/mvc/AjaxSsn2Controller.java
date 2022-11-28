@@ -1,14 +1,7 @@
 /*=================================
-	#21. AjaxController.java
+	#21-1. AjaxSsn2Controller.java
 	- 사용자 정의 컨트롤러 클래스
 ==================================*/
-/*
-	EmployeeDAO.java 에 만들어놨던 내용 중에
-	직위 아이디에 따른 최소 기본급 확인/검색해주는 메소드를 비즈니스 로직삼아서 일함 
-	→ getMinBasicpay()
-	그 값을 Ajax.jsp 에 두면 된다.
-
-*/
 
 package com.test.mvc;
 
@@ -54,7 +47,7 @@ public class AjaxSsn2Controller implements Controller
 		// ----------------------------------------------------------------- 세션 처리과정 추가
 	
 		// 이전 페이지(EmployeeUpdateForm.jsp) 로부터 데이터 수신
-		//-- employeeId
+		//-- employeeId, ssn2
 		String employeeId = request.getParameter("employeeId");
 		String ssn2 = request.getParameter("ssn2");
 		

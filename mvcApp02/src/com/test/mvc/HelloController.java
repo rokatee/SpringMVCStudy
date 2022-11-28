@@ -21,7 +21,6 @@ public class HelloController implements Controller
 	public ModelAndView handleRequest(HttpServletRequest arg0, HttpServletResponse arg1) throws Exception
 	{
 		// 컨트롤러 내부 액션 처리 코드
-		
 		ModelAndView mav = new ModelAndView();
 		
 
