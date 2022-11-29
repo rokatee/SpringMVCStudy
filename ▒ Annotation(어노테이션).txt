@@ -655,7 +655,7 @@ aop에서 주인공은 보조업무
 
 
 ※ Spring Annotation 에서 정리한 내용에 추가 ++
-→ @Component 정리안했지만 위에 내용정리해놓은거 보면 됨!
+→ @Component 정리 안했지만 위에 내용 정리 해 놓은 거 보면 됨!
 
 ○ @Service
    - 개요
