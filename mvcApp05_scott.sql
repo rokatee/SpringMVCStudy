@@ -361,6 +361,7 @@ DESC MEMBERLIST;
 
 DESC MEMBERRECORD;
 
+------------------------------------------------
 CREATE OR REPLACE VIEW MEMBERLIST_VIEW
 AS
 SELECT L.ID AS ID
@@ -387,3 +388,4 @@ SELECT L.ID AS ID
 FROM MEMBERLIST L LEFT JOIN MEMBERRECORD R
   ON L.ID = R.ID
 ORDER BY NAME;
+-------------------------------------------------
