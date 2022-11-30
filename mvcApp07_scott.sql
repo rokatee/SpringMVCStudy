@@ -58,22 +58,3 @@ FROM TBL_MEMBERLIST;
 SELECT COUNT(*) AS COUNT FROM TBL_MEMBERLIST
 ;
 --==>> 1
-
---¡Û 
-
-
---¡Û 
-
-
-
---¡Û 
-
-
---¡Û 
-
-
---¡Û 
-
-
---¡Û 
-
