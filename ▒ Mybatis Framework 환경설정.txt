@@ -196,7 +196,7 @@
 
 ○ 기능 구현
    : 성적 관리
-
+     이 과정에서 mybatis 활용
 
 ○ 데이터베이스 관련 객체 준비
    - 사용 계정 : scott
@@ -237,8 +237,8 @@
    - StudentDAO.xml		→ mybatis 환경 설정 파일 활용
    - GradeDAO.xml		→ mybatis 환경 설정 파일 활용
 
-   - StudentController.java	→ Controller
-   - GradeController.java	→ Controller
+   - StudentController.java	→ mybatis 객체 활용(Controller)
+   - GradeController.java	→ mybatis 객체 활용(Controller)
 
    - StudentList.jsp		→ view 페이지
  				   (학생 명단 출력 레이아웃 구성)
