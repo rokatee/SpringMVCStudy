@@ -20,5 +20,24 @@
 		VALUES(#{sid}, #{sub1}, #{sub2}, #{sub3})
 	</insert>
 	
+	<select id="search" resultType="com.test.mybatis.GradeDTO">
+		SELECT SID, NAME, SUB1, SUB2, SUB3, TOT, AVG, CH
+		FROM GRADEVIEW
+		WHERE SID = #{sid}
+	</select>
+	
+	<update id="update">
+		UPDATE TBL_GRADE
+		SET SUB1 = #{sub1}
+		  , SUB2 = #{sub2}
+		  , SUB3 = #{sub3}
+		WHERE SID = #{sid}
+	</update>
+	
+	<delete id="delete">
+		DELETE
+		FROM TBL_GRADE
+		WHERE SID = #{sid}
+	</delete>
 
 </mapper>

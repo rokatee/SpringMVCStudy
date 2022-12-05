@@ -51,13 +51,6 @@
 		ORDER BY SID
 	</select>
 	
-	<select id="search" resultType="com.test.mybatis.StudentDTO">
-		SELECT SID, NAME, TEL, SUB
-		FROM STUDENTVIEW
-		WHERE SID = #{sid}
-	</select>
-	
-	
 	<!-- 직접 sid, name, tel을 건네주는게 아니라 -->
 	<!-- dto를 건네면 자기가 알아서 뽑아서 쓰는거 -->
 	<!-- 
@@ -78,5 +71,24 @@
 		VALUES(${sid}, '${name}', '${tel}')
 		 --> 
 	</insert>
+	
+	<select id="search" resultType="com.test.mybatis.StudentDTO">
+		SELECT SID, NAME, TEL, SUB
+		FROM STUDENTVIEW
+		WHERE SID = #{sid}
+	</select>
+	
+	<update id="update">
+		UPDATE TBL_STUDENT
+		SET NAME = #{name}
+		  , TEL = #{tel}
+		WHERE SID = #{sid}
+	</update>
+	
+	<delete id="delete">
+		DELETE
+		FROM TBL_STUDENT
+		WHERE SID = #{sid}
+	</delete>
 	
 </mapper>

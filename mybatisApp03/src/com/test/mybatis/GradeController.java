@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -41,6 +42,16 @@ public class GradeController
 		return result;
 	}
 	
+	@RequestMapping(value = "/gradeinsertform.action", method = RequestMethod.GET)
+	public String gradeInsertForm()
+	{
+		String result = null;
+		
+		result = "/WEB-INF/view/GradeInsertForm.jsp";
+		
+		return result;
+	}
+	
 	// form에서의 name 속성들과 dto의 속성이름이 같으면,
 	// 일치하는 이름이 있으면 controller에서는 dto를 바로 받을 수 있다. 
 	@RequestMapping(value = "/gradeinsert.action", method = RequestMethod.POST)
@@ -51,6 +62,49 @@ public class GradeController
 		IGradeDAO dao = sqlSession.getMapper(IGradeDAO.class);
 		
 		dao.add(grade);
+		
+		result = "redirect:gradelist.action";
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/gradeupdateform.action", method = RequestMethod.GET)
+	public String gradeUpdateForm(ModelMap model, GradeDTO grade)
+	{
+		String result = null;
+		
+		IGradeDAO dao = sqlSession.getMapper(IGradeDAO.class);
+		
+		dao.search(grade);
+		model.addAttribute("grade", dao.search(grade));
+		
+		result = "/WEB-INF/view/GradeUpdateForm.jsp";
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/gradeupdate.action", method = RequestMethod.POST)
+	public String gradeUpdate(GradeDTO grade)
+	{
+		String result = null;
+		
+		IGradeDAO dao = sqlSession.getMapper(IGradeDAO.class);
+		
+		dao.update(grade);
+		
+		result = "redirect:gradelist.action";
+		
+		return result;
+	}
+
+	@RequestMapping(value = "/gradedelete.action", method = RequestMethod.GET)
+	public String gradeDelete(String sid)
+	{
+		String result = null;
+		
+		IGradeDAO dao = sqlSession.getMapper(IGradeDAO.class);
+		
+		dao.delete(sid);
 		
 		result = "redirect:gradelist.action";
 		

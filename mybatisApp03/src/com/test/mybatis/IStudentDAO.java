@@ -18,6 +18,12 @@ public interface IStudentDAO
 	public int add(StudentDTO s);
 	
 	// 학생정보 확인(sid를 활용하여 학생 정보 검색)
-	public StudentDTO search(String id);
+	public StudentDTO search(StudentDTO dto);
+	
+	// 학생 정보 수정
+	public int update(StudentDTO dto);
+	
+	// 학생 정보 삭제
+	public int delete(String sid);
 	
 }

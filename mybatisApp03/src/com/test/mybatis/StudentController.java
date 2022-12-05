@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -41,6 +42,16 @@ public class StudentController
 		return result;
 	}
 	
+	@RequestMapping(value = "/studentinsertform.action", method = RequestMethod.GET)
+	public String studentInsertForm()
+	{
+		String result = null;
+		
+		result = "/WEB-INF/view/StudentInsertForm.jsp";
+		
+		return result;
+	}
+	
 	// form에서의 name 속성들과 dto의 속성이름이 같으면,
 	// 일치하는 이름이 있으면 controller에서는 dto를 바로 받을 수 있다. 
 	@RequestMapping(value = "/studentinsert.action", method = RequestMethod.POST)
@@ -51,6 +62,49 @@ public class StudentController
 		IStudentDAO dao = sqlSession.getMapper(IStudentDAO.class);
 		
 		dao.add(student);
+		
+		result = "redirect:studentlist.action";
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/studentupdateform.action", method = RequestMethod.GET)
+	public String studentUpdateFrom(ModelMap model, StudentDTO student)
+	{
+		String result = null;
+		
+		IStudentDAO dao = sqlSession.getMapper(IStudentDAO.class);
+		
+		dao.search(student);
+		model.addAttribute("student", dao.search(student));
+		
+		result = "/WEB-INF/view/StudentUpdateForm.jsp";
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/studentupdate.action", method = RequestMethod.POST)
+	public String studentUpdate(StudentDTO student)
+	{
+		String result = null;
+		
+		IStudentDAO dao = sqlSession.getMapper(IStudentDAO.class);
+		
+		dao.update(student);
+		
+		result = "redirect:studentlist.action";
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/studentdelete.action", method = RequestMethod.GET)
+	public String studentDelete(String sid)
+	{
+		String result = null;
+		
+		IStudentDAO dao = sqlSession.getMapper(IStudentDAO.class);
+		
+		dao.delete(sid);
 		
 		result = "redirect:studentlist.action";
 		
