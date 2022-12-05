@@ -85,8 +85,7 @@
 										번호
 										<sup style="color: red;">※</sup>
 									</span>
-									<input type="text" id="sid" name="sid" class="form-control"
-									value="${sid }" maxlength="30">
+									<input type="text" id="sid" name="sid" class="form-control" maxlength="30">
 									<span class="input-group-addon"></span>
 								</div>
 							</td>

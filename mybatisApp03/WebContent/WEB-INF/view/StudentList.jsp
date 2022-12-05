@@ -155,7 +155,12 @@
 							</c:if>
 							<td>
 								<button type="button" class="btn btn-success" value="${student.sid }">수정</button>
+								<c:if test="${student.sub == 0 }">
 								<button type="button" class="btn btn-danger" value="${student.sid }">삭제</button>
+								</c:if>
+								<c:if test="${student.sub == 1 }">
+								<button type="button" class="btn btn-danger" value="${student.sid }" disabled="disabled">삭제</button>
+								</c:if>
 							</td>
 						</tr>
 						</c:forEach>
