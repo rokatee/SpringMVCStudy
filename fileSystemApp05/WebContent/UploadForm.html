@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>UploadForm.html</title>
+</head>
+<body>
+
+<div>
+	<h1>파일 입력 폼</h1>
+	<hr />
+</div>
+
+<div>
+	<!-- multipart/form-data로 넘긴것도 바이너리 형태로 꺼내려면 꺼낼 수 있다. -->
+	<form action="Receive.jsp" method="post" enctype="multipart/form-data">
+		파일
+		<input type="file" name="file1" size="50"><br />
+		
+		텍스트
+		<input type="text" name="data" size="30"><br />
+		
+		<input type="submit" value="upload"><br />
+	</form>
+</div>
+
+
+</body>
+</html>

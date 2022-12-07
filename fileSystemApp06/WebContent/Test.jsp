@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -8,13 +9,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Send.jsp</title>
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<title>Test.jsp</title>
+<link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
 </head>
 <body>
-
 <div>
-	<h1>파일 시스템 및 파일 업로드</h1>
+	<h1>파일 업로드 - 단일 파일 업로드</h1>
 	<hr />
 </div>
 
@@ -32,32 +32,15 @@
 	-->
 	<!-- 『enctype="multipart/form-data"』 : 물리적으로 업로드하기 위한 필수 속성 -->
 	<!-- 『method="post"』 : 파일을 물리적으로 업로드하기 위한 요청 및 전송 방식 -->
-	<form action="Receive.jsp" method="post" enctype="multipart/form-data">
-		이름 : <input type="text" name="name" /><br />
+	<form name="myform" action="Test_ok.jsp" method="post" enctype="multipart/form-data">
+		작성자 : <input type="text" name="userName" /><br />
+		제목 : <input type="text" name="subject" /><br />
+		파일 : <input type="file" name="uploadFile" /><br />
+		<br />
 		
-		<!-- 파일 업로드 대화창 구성 -->
-		<!-- 『input type="file"』 -->
-		파일 : <input type="file" name="upload" /><br />
-		<button type="submit">전송</button>
+		<input type="submit" value="파일올리기" />
 	</form>
 </div>
-
-<!-- 
-
-	『Send.jsp』의 form 엘리먼트 enctype 속성을
-	『enctype="multipart/form-data"』와 같이 구성할 경우
-	form 의 내용을 바이너리 값의 형태로 전송한다는 의미이며,
-	이와 같이 전송할 경우 수신된 데이터는
-	
-	이름 : null
-	파일 : null
-	
-	로 확인된다.
-	
-	==> 바이너리 값을 getParameter() 를 통해 수신할 수 없다는 의미이다.
-	    원래는 잘 받아지던 이름값도 받아지지 않는다.
-	
- -->
 
 </body>
 </html>
